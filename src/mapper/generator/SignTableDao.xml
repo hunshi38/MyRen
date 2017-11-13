@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.generator.dao.SignTableDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.generator.entity.SignTableEntity" id="signTableMap">
+        <result property="id" column="id"/>
+        <result property="checkStatus" column="check_status"/>
+        <result property="competitionId" column="competition_id"/>
+        <result property="fileName" column="file_name"/>
+        <result property="filePath" column="file_path"/>
+        <result property="frontUserId" column="front_user_id"/>
+        <result property="note" column="note"/>
+        <result property="type" column="type"/>
+        <result property="comname" column="comName"/>
+        <result property="time" column="time"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="io.renren.modules.generator.entity.SignTableEntity">
+		select * from sign_table where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="io.renren.modules.generator.entity.SignTableEntity">
+		select * from sign_table
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from sign_table 
+	</select>
+	 
+	<insert id="save" parameterType="io.renren.modules.generator.entity.SignTableEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into sign_table
+		(
+			`check_status`, 
+			`competition_id`, 
+			`file_name`, 
+			`file_path`, 
+			`front_user_id`, 
+			`note`, 
+			`type`, 
+			`comName`, 
+			`time`
+		)
+		values
+		(
+			#{checkStatus}, 
+			#{competitionId}, 
+			#{fileName}, 
+			#{filePath}, 
+			#{frontUserId}, 
+			#{note}, 
+			#{type}, 
+			#{comname}, 
+			#{time}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="io.renren.modules.generator.entity.SignTableEntity">
+		update sign_table 
+		<set>
+			<if test="checkStatus != null">`check_status` = #{checkStatus}, </if>
+			<if test="competitionId != null">`competition_id` = #{competitionId}, </if>
+			<if test="fileName != null">`file_name` = #{fileName}, </if>
+			<if test="filePath != null">`file_path` = #{filePath}, </if>
+			<if test="frontUserId != null">`front_user_id` = #{frontUserId}, </if>
+			<if test="note != null">`note` = #{note}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="comname != null">`comName` = #{comname}, </if>
+			<if test="time != null">`time` = #{time}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from sign_table where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from sign_table where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

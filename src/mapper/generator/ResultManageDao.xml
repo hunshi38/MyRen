@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.generator.dao.ResultManageDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.generator.entity.ResultManageEntity" id="resultManageMap">
+        <result property="id" column="id"/>
+        <result property="additionalWord" column="additional_word"/>
+        <result property="competitionId" column="competition_id"/>
+        <result property="resultFilePath" column="result_file_path"/>
+        <result property="resultName" column="result_name"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="io.renren.modules.generator.entity.ResultManageEntity">
+		select * from result_manage where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="io.renren.modules.generator.entity.ResultManageEntity">
+		select * from result_manage
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from result_manage 
+	</select>
+	 
+	<insert id="save" parameterType="io.renren.modules.generator.entity.ResultManageEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into result_manage
+		(
+			`additional_word`, 
+			`competition_id`, 
+			`result_file_path`, 
+			`result_name`
+		)
+		values
+		(
+			#{additionalWord}, 
+			#{competitionId}, 
+			#{resultFilePath}, 
+			#{resultName}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="io.renren.modules.generator.entity.ResultManageEntity">
+		update result_manage 
+		<set>
+			<if test="additionalWord != null">`additional_word` = #{additionalWord}, </if>
+			<if test="competitionId != null">`competition_id` = #{competitionId}, </if>
+			<if test="resultFilePath != null">`result_file_path` = #{resultFilePath}, </if>
+			<if test="resultName != null">`result_name` = #{resultName}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from result_manage where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from result_manage where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

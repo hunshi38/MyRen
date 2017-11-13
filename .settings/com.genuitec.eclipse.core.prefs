@@ -1,0 +1,3 @@
+eclipse.preferences.version=1
+validator.Checked=src/mybatis.xml,src/spring-redis.xml,src/mapper/generator/NoticeBoardDao.xml,src/spring-jdbc.xml,src/io/renren/modules/generator/service/impl/NoticeBoardServiceImpl.java,src/spring-mvc.xml,src/spring-scheduler.xml,src/io/renren/common/xss/XssHttpServletRequestWrapper.java,WebRoot
+validator.Unchecked=

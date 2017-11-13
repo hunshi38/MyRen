@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.generator.dao.TeamInfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.generator.entity.TeamInfoEntity" id="teamInfoMap">
+        <result property="id" column="id"/>
+        <result property="athleteIdSet" column="athlete_id_set"/>
+        <result property="note" column="note"/>
+        <result property="signType" column="sign_type"/>
+        <result property="teamCaptain" column="team_captain"/>
+        <result property="teamContact" column="team_contact"/>
+        <result property="teamLeader" column="team_leader"/>
+        <result property="teamName" column="team_name"/>
+        <result property="filename" column="filename"/>
+        <result property="unit" column="unit"/>
+        <result property="company" column="company"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="io.renren.modules.generator.entity.TeamInfoEntity">
+		select * from team_info where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="io.renren.modules.generator.entity.TeamInfoEntity">
+		select * from team_info
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from team_info 
+	</select>
+	 
+	<insert id="save" parameterType="io.renren.modules.generator.entity.TeamInfoEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into team_info
+		(
+			`athlete_id_set`, 
+			`note`, 
+			`sign_type`, 
+			`team_captain`, 
+			`team_contact`, 
+			`team_leader`, 
+			`team_name`, 
+			`filename`, 
+			`unit`, 
+			`company`
+		)
+		values
+		(
+			#{athleteIdSet}, 
+			#{note}, 
+			#{signType}, 
+			#{teamCaptain}, 
+			#{teamContact}, 
+			#{teamLeader}, 
+			#{teamName}, 
+			#{filename}, 
+			#{unit}, 
+			#{company}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="io.renren.modules.generator.entity.TeamInfoEntity">
+		update team_info 
+		<set>
+			<if test="athleteIdSet != null">`athlete_id_set` = #{athleteIdSet}, </if>
+			<if test="note != null">`note` = #{note}, </if>
+			<if test="signType != null">`sign_type` = #{signType}, </if>
+			<if test="teamCaptain != null">`team_captain` = #{teamCaptain}, </if>
+			<if test="teamContact != null">`team_contact` = #{teamContact}, </if>
+			<if test="teamLeader != null">`team_leader` = #{teamLeader}, </if>
+			<if test="teamName != null">`team_name` = #{teamName}, </if>
+			<if test="filename != null">`filename` = #{filename}, </if>
+			<if test="unit != null">`unit` = #{unit}, </if>
+			<if test="company != null">`company` = #{company}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from team_info where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from team_info where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

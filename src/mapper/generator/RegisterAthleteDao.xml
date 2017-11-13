@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.generator.dao.RegisterAthleteDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.generator.entity.RegisterAthleteEntity" id="registerAthleteMap">
+        <result property="idCard" column="id_card"/>
+        <result property="registerCode" column="register_code"/>
+        <result property="name" column="name"/>
+        <result property="gender" column="gender"/>
+        <result property="birthday" column="birthday"/>
+        <result property="company" column="company"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="io.renren.modules.generator.entity.RegisterAthleteEntity">
+		select * from register_athlete where id_card = #{value}
+	</select>
+
+	<select id="queryList" resultType="io.renren.modules.generator.entity.RegisterAthleteEntity">
+		select * from register_athlete
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id_card desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from register_athlete 
+	</select>
+	 
+	<insert id="save" parameterType="io.renren.modules.generator.entity.RegisterAthleteEntity">
+		insert into register_athlete
+		(
+			`id_card`, 
+			`register_code`, 
+			`name`, 
+			`gender`, 
+			`birthday`, 
+			`company`
+		)
+		values
+		(
+			#{idCard}, 
+			#{registerCode}, 
+			#{name}, 
+			#{gender}, 
+			#{birthday}, 
+			#{company}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="io.renren.modules.generator.entity.RegisterAthleteEntity">
+		update register_athlete 
+		<set>
+			<if test="registerCode != null">`register_code` = #{registerCode}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="gender != null">`gender` = #{gender}, </if>
+			<if test="birthday != null">`birthday` = #{birthday}, </if>
+			<if test="company != null">`company` = #{company}</if>
+		</set>
+		where id_card = #{idCard}
+	</update>
+	
+	<delete id="delete">
+		delete from register_athlete where id_card = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from register_athlete where id_card in 
+		<foreach item="idCard" collection="array" open="(" separator="," close=")">
+			#{idCard}
+		</foreach>
+	</delete>
+
+</mapper>

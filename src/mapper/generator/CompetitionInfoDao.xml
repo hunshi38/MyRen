@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.generator.dao.CompetitionInfoDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.generator.entity.CompetitionInfoEntity" id="competitionInfoMap">
+        <result property="id" column="id"/>
+        <result property="competitionId" column="competition_id"/>
+        <result property="eventId" column="event_id"/>
+        <result property="groupId" column="group_id"/>
+        <result property="signType" column="sign_type"/>
+        <result property="note" column="note"/>
+        <result property="competitionname" column="competitionName"/>
+        <result property="eventname" column="eventName"/>
+        <result property="groupname" column="groupName"/>
+        <result property="type" column="type"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="io.renren.modules.generator.entity.CompetitionInfoEntity">
+		select * from competition_info where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="io.renren.modules.generator.entity.CompetitionInfoEntity">
+		select * from competition_info
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from competition_info 
+	</select>
+	 
+	<insert id="save" parameterType="io.renren.modules.generator.entity.CompetitionInfoEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into competition_info
+		(
+			`competition_id`, 
+			`event_id`, 
+			`group_id`, 
+			`sign_type`, 
+			`note`, 
+			`competitionName`, 
+			`eventName`, 
+			`groupName`, 
+			`type`
+		)
+		values
+		(
+			#{competitionId}, 
+			#{eventId}, 
+			#{groupId}, 
+			#{signType}, 
+			#{note}, 
+			#{competitionname}, 
+			#{eventname}, 
+			#{groupname}, 
+			#{type}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="io.renren.modules.generator.entity.CompetitionInfoEntity">
+		update competition_info 
+		<set>
+			<if test="competitionId != null">`competition_id` = #{competitionId}, </if>
+			<if test="eventId != null">`event_id` = #{eventId}, </if>
+			<if test="groupId != null">`group_id` = #{groupId}, </if>
+			<if test="signType != null">`sign_type` = #{signType}, </if>
+			<if test="note != null">`note` = #{note}, </if>
+			<if test="competitionname != null">`competitionName` = #{competitionname}, </if>
+			<if test="eventname != null">`eventName` = #{eventname}, </if>
+			<if test="groupname != null">`groupName` = #{groupname}, </if>
+			<if test="type != null">`type` = #{type}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from competition_info where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from competition_info where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

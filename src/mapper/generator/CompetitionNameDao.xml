@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.generator.dao.CompetitionNameDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.generator.entity.CompetitionNameEntity" id="competitionNameMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="signStartDate" column="sign_start_date"/>
+        <result property="signEndDate" column="sign_end_date"/>
+        <result property="limitAccount" column="limit_account"/>
+        <result property="note" column="note"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="io.renren.modules.generator.entity.CompetitionNameEntity">
+		select * from competition_name where id = #{value}
+	</select>
+  
+	<select id="queryList" resultType="io.renren.modules.generator.entity.CompetitionNameEntity">
+		select * from competition_name
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from competition_name 
+	</select>
+	 <select id="queryListByType" resultType="io.renren.modules.generator.entity.CompetitionNameEntity">
+		select * from competition_name where type = #{value}
+	</select>
+	<insert id="save" parameterType="io.renren.modules.generator.entity.CompetitionNameEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into competition_name
+		(
+			`name`, 
+			`type`, 
+			`sign_start_date`, 
+			`sign_end_date`, 
+			`limit_account`, 
+			`note`
+		)
+		values
+		(
+			#{name}, 
+			#{type}, 
+			#{signStartDate}, 
+			#{signEndDate}, 
+			#{limitAccount}, 
+			#{note}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="io.renren.modules.generator.entity.CompetitionNameEntity">
+		update competition_name 
+		<set>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="signStartDate != null">`sign_start_date` = #{signStartDate}, </if>
+			<if test="signEndDate != null">`sign_end_date` = #{signEndDate}, </if>
+			<if test="limitAccount != null">`limit_account` = #{limitAccount}, </if>
+			<if test="note != null">`note` = #{note}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from competition_name where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from competition_name where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

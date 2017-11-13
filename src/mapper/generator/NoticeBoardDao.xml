@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.generator.dao.NoticeBoardDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.generator.entity.NoticeBoardEntity" id="noticeBoardMap">
+        <result property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="contenUrl" column="conten_url"/>
+        <result property="createTime" column="create_time"/>
+        <result property="picUrl" column="pic_url"/>
+        <result property="readNumber" column="read_number"/>
+        <result property="cId" column="c_id"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="io.renren.modules.generator.entity.NoticeBoardEntity">
+		select * from notice_board where id = #{value}
+	</select>
+	<select id="queryObjectByCid" resultType="io.renren.modules.generator.entity.NoticeBoardEntity">
+		select * from notice_board where c_id = #{value}
+	</select>
+
+	<select id="queryList" resultType="io.renren.modules.generator.entity.NoticeBoardEntity">
+		select * from notice_board
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from notice_board 
+	</select>
+	 
+	<insert id="save" parameterType="io.renren.modules.generator.entity.NoticeBoardEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into notice_board
+		(
+			`title`, 
+			`content`, 
+			`conten_url`, 
+			`create_time`, 
+			`pic_url`, 
+			`read_number`, 
+			`c_id`
+		)
+		values
+		(
+			#{title}, 
+			#{content}, 
+			#{contenUrl}, 
+			#{createTime}, 
+			#{picUrl}, 
+			#{readNumber}, 
+			#{cId}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="io.renren.modules.generator.entity.NoticeBoardEntity">
+		update notice_board 
+		<set>
+			<if test="title != null">`title` = #{title}, </if>
+			<if test="content != null">`content` = #{content}, </if>
+			<if test="contenUrl != null">`conten_url` = #{contenUrl}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="picUrl != null">`pic_url` = #{picUrl}, </if>
+			<if test="readNumber != null">`read_number` = #{readNumber}, </if>
+			<if test="cId != null">`c_id` = #{cId}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from notice_board where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from notice_board where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

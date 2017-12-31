@@ -3,6 +3,7 @@
 <head>
 <title></title>
 <#include "/header.html">
+ <script src="${request.contextPath}/before/js/md5.js"></script>
 </head>
 <body>
 <div id="rrapp" v-cloak>
@@ -32,16 +33,18 @@
 			    </div>
 			</div>
 									<div class="form-group">
-			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-2 control-label">密码</div>
 			   	<div class="col-sm-10">
 			      <input type="text" class="form-control" v-model="user.password" placeholder=""/>
 			    </div>
 			</div>
-									<div class="form-group">
-			   	<div class="col-sm-2 control-label">0 超级管理员  1系统管理员 2裁判 3区县管理员（竞技报名） 4其他报名人员</div>
+				<div class="form-group">
+			   	<div class="col-sm-2 control-label">角色</div>
 			   	<div class="col-sm-10">
-			      <input type="text" class="form-control" v-model="user.userType" placeholder="0 超级管理员  1系统管理员 2裁判 3区县管理员（竞技报名） 4其他报名人员"/>
-			    </div>
+			<select id="ssign_type" name="ssign_type" class="form-control" v-model="user.signType">
+			
+			</select>
+			 </div>
 			</div>
 									<div class="form-group">
 			   	<div class="col-sm-2 control-label">备注</div>
@@ -50,7 +53,7 @@
 			    </div>
 			</div>
 									<div class="form-group">
-			   	<div class="col-sm-2 control-label"></div>
+			   	<div class="col-sm-2 control-label">ut</div>
 			   	<div class="col-sm-10">
 			      <input type="text" class="form-control" v-model="user.ut" placeholder=""/>
 			    </div>
@@ -60,10 +63,13 @@
 				<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
 				&nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
 			</div>
+			
+			<input type="text" hidden="true"  v-model="user.md5" placeholder=""/>
+			   
 		</form>
 	</div>
 </div>
-
+ 
 <script src="${request.contextPath}/statics/js/modules/generator/user.js?_${.now?long}"></script>
 </body>
 </html>

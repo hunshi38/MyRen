@@ -27,4 +27,5 @@ public interface AthleteService {
 	void delete(Integer id);
 	
 	void deleteBatch(Integer[] ids);
+	AthleteEntity queryObjectByCardId(String idCard);
 }

@@ -108,6 +108,7 @@ public class AthleteEntity implements Serializable {
 	 * 获取：
 	 */
 	public Date getBirthday() {
+		
 		return birthday;
 	}
 	/**

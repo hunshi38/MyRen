@@ -51,5 +51,12 @@ public class AthleteServiceImpl implements AthleteService {
 	public void deleteBatch(Integer[] ids){
 		athleteDao.deleteBatch(ids);
 	}
+
+	@Override
+	public AthleteEntity queryObjectByCardId(String idCard) {
+		
+		return athleteDao.queryObjectByCardId(idCard);
+	}
+	
 	
 }

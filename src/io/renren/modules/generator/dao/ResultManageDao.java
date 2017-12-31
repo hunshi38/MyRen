@@ -10,5 +10,5 @@ import io.renren.modules.sys.dao.BaseDao;
  * @date 2017-11-01 11:45:56
  */
 public interface ResultManageDao extends BaseDao<ResultManageEntity> {
-	
+	ResultManageEntity queryObjectByCompetitionId(Integer competitionId);
 }

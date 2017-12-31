@@ -1,5 +1,6 @@
 package io.renren.modules.generator.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,17 +36,13 @@ public class UserTypeController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("usertype:list")
-	public R list(@RequestParam Map<String, Object> params){
+	
+	public R list( ){
 		//查询列表数据
-        Query query = new Query(params);
-
-		List<UserTypeEntity> userTypeList = userTypeService.queryList(query);
-		int total = userTypeService.queryTotal(query);
-		
-		PageUtils pageUtil = new PageUtils(userTypeList, total, query.getLimit(), query.getPage());
-		
-		return R.ok().put("page", pageUtil);
+      
+        Map<String, Object> map = new HashMap<String,Object>();
+		List<UserTypeEntity> userTypeList = userTypeService.queryList(map);
+		return R.ok().put("list", userTypeList);
 	}
 	
 	

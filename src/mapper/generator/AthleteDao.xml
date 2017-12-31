@@ -21,6 +21,9 @@
 	<select id="queryObject" resultType="io.renren.modules.generator.entity.AthleteEntity">
 		select * from athlete where id = #{value}
 	</select>
+	<select id="queryObjectByCardId" resultType="io.renren.modules.generator.entity.AthleteEntity">
+		select * from athlete where id_card = #{value}
+	</select>
 
 	<select id="queryList" resultType="io.renren.modules.generator.entity.AthleteEntity">
 		select * from athlete

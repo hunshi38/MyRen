@@ -3,17 +3,22 @@ $(function () {
         url: baseURL + 'teaminfo/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
-			{ label: '', name: 'athleteIdSet', index: 'athlete_id_set', width: 80 }, 			
-			{ label: '', name: 'note', index: 'note', width: 80 }, 			
-			{ label: '', name: 'signType', index: 'sign_type', width: 80 }, 			
-			{ label: '', name: 'teamCaptain', index: 'team_captain', width: 80 }, 			
-			{ label: '', name: 'teamContact', index: 'team_contact', width: 80 }, 			
-			{ label: '', name: 'teamLeader', index: 'team_leader', width: 80 }, 			
-			{ label: '', name: 'teamName', index: 'team_name', width: 80 }, 			
-			{ label: '', name: 'filename', index: 'filename', width: 80 }, 			
-			{ label: '', name: 'unit', index: 'unit', width: 80 }, 			
-			{ label: '', name: 'company', index: 'company', width: 80 }			
+			{ label: '编号', name: 'id', index: 'id', width: 30, key: true },
+			{ label: '队伍名称', name: 'teamName', index: 'team_name', width: 80 }, 	
+			{ label: '运动员集合', name: 'athleteIdSet', index: 'athlete_id_set', width: 80 }, 				
+			{ label: '报名方式', name: 'signType', index: 'sign_type', width: 30,
+				formatter:function(value,options,rowData){
+				     if( value===0 ){
+	                    return '团体报名';
+	                 }else{
+	                     return '个人报名';
+	                 }}	
+			}, 			
+			{ label: '队长姓名', name: 'teamCaptain', index: 'team_captain', width: 80 }, 					
+			{ label: '领队姓名', name: 'teamLeader', index: 'team_leader', width: 50 }, 	
+			{ label: '联系方式', name: 'teamContact', index: 'team_contact', width: 80 }, 	
+			{ label: '单位', name: 'company', index: 'company', width: 80 },
+			{ label: '备注', name: 'note', index: 'note', width: 40 }
         ],
 		viewrecords: true,
         height: 385,
@@ -42,9 +47,11 @@ $(function () {
     });
 });
 
+
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
+		detailinfo:false,
 		showList: true,
 		title: null,
 		teamInfo: {}
@@ -58,16 +65,45 @@ var vm = new Vue({
 			vm.title = "新增";
 			vm.teamInfo = {};
 		},
-		update: function (event) {
+		detail: function (event) {
 			var id = getSelectedRow();
 			if(id == null){
 				return ;
 			}
 			vm.showList = false;
-            vm.title = "修改";
+			vm.detailinfo = true;
+            vm.title = "详情"; 
+            $.get(baseURL + "teaminfo/info/"+id, function(r){
+                var team = r.teamInfo;
+                $("#competition-name").text(team.teamName);
+                $("#company").text("报名单位："+team.company);
+                $("#leader").html("领队："+team.teamLeader+"&nbsp;&nbsp;&nbsp;&nbsp;联系电话："+team.teamContact);
+                $("#captain").text("教练："+team.teamCaptain);
+      
+                var tableContentStr="<tr><th style='text-align:center;'>身份证号码</th><th style='text-align:center;'>姓名</th><th style='text-align:center;'>报名方式</th></tr>";
+                var atheleteSet = team.athleteIdSet;
+                var aths= new Array(); //定义一数组 
+                aths=atheleteSet.split(";"); //字符分割 
+               
+                for (i=0;i<aths.length ;i++ ) 
+                {   tableContentStr +="<tr>"
+                	var athp = new Array();
+                	athp = aths[i].split("-");
+                	for( j=0;j<athp.length;j++){
+                		tableContentStr +="<td>"+athp[j]+"</td>";
+                	}
+                	
+                	tableContentStr+="</tr>"
+                }
+             
+               $("#athSet").html(tableContentStr);
+               
+            });
             
-            vm.getInfo(id)
+            
+            
 		},
+		
 		saveOrUpdate: function (event) {
 			var url = vm.teamInfo.id == null ? "teaminfo/save" : "teaminfo/update";
 			$.ajax({
@@ -117,6 +153,7 @@ var vm = new Vue({
 		},
 		reload: function (event) {
 			vm.showList = true;
+			vm.detailinfo = false;
 			var page = $("#jqGrid").jqGrid('getGridParam','page');
 			$("#jqGrid").jqGrid('setGridParam',{ 
                 page:page
@@ -124,3 +161,7 @@ var vm = new Vue({
 		}
 	}
 });
+
+function　back(e){
+	vm.reload(e);
+}

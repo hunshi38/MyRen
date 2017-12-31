@@ -20,7 +20,12 @@
 	<select id="queryObject" resultType="io.renren.modules.generator.entity.SignTableEntity">
 		select * from sign_table where id = #{value}
 	</select>
-
+	<select id="queryObjectByFilePath" resultType="io.renren.modules.generator.entity.SignTableEntity">
+		select * from sign_table where file_path = #{value}
+	</select>
+   	<select id="getSignYears" resultType="int">
+		select distinct(time) from sign_table
+	</select>
 	<select id="queryList" resultType="io.renren.modules.generator.entity.SignTableEntity">
 		select * from sign_table
         <choose>
@@ -35,6 +40,10 @@
 			limit #{offset}, #{limit}
 		</if>
 	</select>
+	<select id="queryObjectByfrontUserId2" resultType="io.renren.modules.generator.entity.SignTableEntity">
+		select * from sign_table where front_user_id = #{userId} and competition_id =#{competitionId}
+	</select>
+	
 	
  	<select id="queryTotal" resultType="int">
 		select count(*) from sign_table 

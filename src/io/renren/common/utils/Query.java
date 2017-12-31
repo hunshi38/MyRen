@@ -19,13 +19,26 @@ public class Query extends LinkedHashMap<String, Object> {
     private int page;
     //每页条数
     private int limit;
+    
+    private int competitionId;
+    
+    private int groupId;
 
     public Query(Map<String, Object> params){
         this.putAll(params);
-
+         Object cidOb = params.get("competitionId");
+         Object gidOb=  params.get("groupId");
+         if(cidOb!=null && gidOb!=null){
+        	 this.competitionId = Integer.parseInt((String)cidOb);
+        	 this.groupId = Integer.parseInt((String)gidOb);
+        	 this.put("competitionId", competitionId);
+        	 this.put("groupId", groupId);
+        	 System.out.println("cid"+competitionId+"- gid"+groupId);
+         }
         //分页参数
         this.page = Integer.parseInt(params.get("page").toString());
         this.limit = Integer.parseInt(params.get("limit").toString());
+        System.out.println("page"+page+"limit"+limit);
         this.put("offset", (page - 1) * limit);
         this.put("page", page);
         this.put("limit", limit);
@@ -36,6 +49,7 @@ public class Query extends LinkedHashMap<String, Object> {
         this.put("sidx", SQLFilter.sqlInject(sidx));
         this.put("order", SQLFilter.sqlInject(order));
     }
+    
 
 
     public int getPage() {

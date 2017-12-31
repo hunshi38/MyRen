@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!--[if IE 7]><html class="ie7" lang="zh"><![endif]-->
+<!--[if gt IE 7]><!-->
+<html lang="zh">
+	<!--<![endif]-->
+
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>公告列表</title>
+		<link href="${request.contextPath}/before/css/style.css" rel="stylesheet" type="text/css" />
+		<link href="${request.contextPath}/before/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+		<link href="${request.contextPath}/before/css/buttons.css" rel="stylesheet">
+		<script type="text/javascript" src="${request.contextPath}/before/js/jquery-3.2.1.min.js"></script>
+		<script>
+			var list;
+			$(document).ready(function() {
+				 $.ajax({
+					type: 'GET',
+					url:'/MyRen/competitionname/listType/1',
+                    timeout: 3000,
+					dataType: 'json',
+					success: function(dat) {
+						list = dat.list;
+						var leng = list.length;
+						var obj;
+						for(c in list) {
+							var obj = list[leng - c - 1];
+							var name = obj.name;
+							var time = obj.signStartDate;
+							var endTime = obj.signEndDate;
+							$("#listpad").append('<li class="cls highlight"> <p class="date">' + time + '</p> <p class="intro"> <a href="#" style="color:#ec6a13"  onclick="intoDetail(' + obj.id + ',1)">' + name + '</a> </p> <p class="version">&nbsp;</p> <div class="more"> <p>报名截止日期: ' + endTime + '</p> </div> </li>')
+						}
+						flushList()
+					},
+				});
+
+			});
+
+			function change() {
+				$("#listpad").empty();
+				var type;
+				var saishi = $("#saishi").text();
+				if(saishi == "群众赛事公告") {
+					type = 0;
+					$("#saishi").text("竞技赛事公告");
+				} else {
+					type = 1;
+					$("#saishi").text("群众赛事公告");
+				}
+
+				$.ajax({
+					type: 'GET',
+					url:'/MyRen/competitionname/listType/'+type,
+                    timeout: 3000,
+					dataType: 'json',
+					success: function(dat) {
+						list = dat.list;
+						var leng = list.length;
+						var obj;
+						for(c in list) {
+							var obj = list[leng - c - 1];
+							var name = obj.name;
+							var time = obj.signStartDate;
+							var endTime = obj.signEndDate;
+							$("#listpad").append('<li class="cls highlight"> <p class="date">' + time + '</p> <p class="intro"> <a href="#" style="color:#ec6a13"  onclick="intoDetail(' + obj.id + ',' + type + ')">' + name + '</a> </p> <p class="version">&nbsp;</p> <div class="more"> <p>报名截止日期: ' + endTime + '</p> </div> </li>')
+						}
+						flushList()
+					},
+				});
+
+			}
+
+			function SetCookie(cookieName, cookieValue, nDays) {
+				/*当前日期*/
+				var today = new Date();
+				/*Cookie过期时间*/
+				var expire = new Date();
+				/*如果未设置nDays参数或者nDays为0，取默认值1*/
+				if(nDays == null || nDays == 0) nDays = 1;
+				/*计算Cookie过期时间*/
+				expire.setTime(today.getTime() + 3600000 * 24 * nDays);
+				/*设置Cookie值*/
+				document.cookie = cookieName + "=" + escape(cookieValue) +
+					";expires=" + expire.toGMTString();
+			}
+
+			function intoDetail(cid, type) {
+				SetCookie("cid", cid, 1);
+				SetCookie("type", type, 1)
+				document.location = "single.html";
+			}
+
+			var flushList = function() {
+				$(".main .year .list").each(function(e, target) {
+					var $target = $(target),
+						$ul = $target.find("ul");
+					$target.height($ul.outerHeight()), $ul.css("position", "absolute");
+				});
+			}
+		</script>
+
+	</head>
+
+	<body>
+		<div class="content">
+			<div class="wrapper">
+				<a id="btn_change" class="button button-glow button-border button-rounded button-primary" style="position: relative;left: 50%;" onclick="change()">切换赛事</a>
+				<div class="main">
+					<h1 class="title" id="saishi">群众赛事公告</h1>
+					<div class="year">
+						<h2><a href="#">2017年<i></i></a></h2>
+						<div class="list" id="pad">
+							<ul id="listpad">
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			$(".main .year>h2>a").click(function(e) {
+				e.preventDefault();
+				$(this).parents(".year").toggleClass("close");
+			});
+		</script>
+	</body>
+
+</html>

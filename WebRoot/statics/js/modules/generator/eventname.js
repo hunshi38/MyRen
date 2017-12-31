@@ -3,9 +3,9 @@ $(function () {
         url: baseURL + 'eventname/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
-			{ label: '', name: 'name', index: 'name', width: 80 }, 			
-			{ label: '', name: 'note', index: 'note', width: 80 }			
+			{ label: '编号', name: 'id', index: 'id', width: 30, key: true },
+			{ label: '项目名称', name: 'name', index: 'name', width: 80 }, 			
+			{ label: '备注', name: 'note', index: 'note', width: 80 }			
         ],
 		viewrecords: true,
         height: 385,
@@ -61,6 +61,11 @@ var vm = new Vue({
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
+			//检验项目
+			var name = $.trim(vm.eventName['name']);
+			if (!validateeventName(name)) {
+				return;
+			}
 			var url = vm.eventName.id == null ? "eventname/save" : "eventname/update";
 			$.ajax({
 				type: "POST",
@@ -116,3 +121,12 @@ var vm = new Vue({
 		}
 	}
 });
+
+//校验项目名称
+function validateeventName(obj) {
+	if (obj == "" || obj == null) {
+		alert('项目名称不能为空!');
+		return false;
+	}
+	return true;
+}

@@ -51,5 +51,11 @@ public class EventNameServiceImpl implements EventNameService {
 	public void deleteBatch(Integer[] ids){
 		eventNameDao.deleteBatch(ids);
 	}
+
+	@Override
+	public List<EventNameEntity> queryListByCompetitionId(Integer competitionId) {
+		// TODO Auto-generated method stub
+		return eventNameDao.queryListByCompetitionId(competitionId);
+	}
 	
 }

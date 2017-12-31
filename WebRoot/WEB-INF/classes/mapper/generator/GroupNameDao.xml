@@ -16,12 +16,20 @@
         <result property="birthdayEarly" column="birthday_early"/>
         <result property="birthdayAfter" column="birthday_after"/>
         <result property="note" column="note"/>
+       
     </resultMap>
 
 	<select id="queryObject" resultType="io.renren.modules.generator.entity.GroupNameEntity">
 		select * from group_name where id = #{value}
 	</select>
+<select id="queryListByCompetitionIdAndEventId" resultType="io.renren.modules.generator.entity.GroupNameEntity">
+	select * from group_name where id in(select distinct(d.group_id) from competition_info d where d.competition_id=#{0} and d.event_id=#{1});
 
+	</select>
+<select id="queryListByCompetitionId" resultType="io.renren.modules.generator.entity.GroupNameEntity">
+	select * from group_name where id in(select distinct(d.group_id) from competition_info d where d.competition_id=#{0});
+
+	</select>
 	<select id="queryList" resultType="io.renren.modules.generator.entity.GroupNameEntity">
 		select * from group_name
         <choose>

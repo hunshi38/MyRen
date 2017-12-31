@@ -47,7 +47,21 @@ public class TeamInfoController {
 		
 		return R.ok().put("page", pageUtil);
 	}
-	
+	/*
+	 * 根据competitionId和groupId进行查找，groupid=0表示全部group
+	 */
+	@RequestMapping("/list2")
+	public R list2(@RequestParam Map<String, Object> params){
+		//查询列表数据
+		Query query = new Query(params);
+		List<TeamInfoEntity> teamInfoList = teamInfoService.queryByCondition(query);
+			int total = teamInfoList.size();
+			
+			PageUtils pageUtil = new PageUtils(teamInfoList, total, query.getLimit(), query.getPage());
+			
+			return R.ok().put("page", pageUtil);
+		
+	}
 	
 	/**
 	 * 信息
@@ -56,7 +70,6 @@ public class TeamInfoController {
 	@RequiresPermissions("teaminfo:info")
 	public R info(@PathVariable("id") Integer id){
 		TeamInfoEntity teamInfo = teamInfoService.queryObject(id);
-		
 		return R.ok().put("teamInfo", teamInfo);
 	}
 	
@@ -67,7 +80,6 @@ public class TeamInfoController {
 	@RequiresPermissions("teaminfo:save")
 	public R save(@RequestBody TeamInfoEntity teamInfo){
 		teamInfoService.save(teamInfo);
-		
 		return R.ok();
 	}
 	

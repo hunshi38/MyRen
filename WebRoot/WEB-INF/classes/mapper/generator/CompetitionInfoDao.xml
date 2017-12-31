@@ -15,13 +15,28 @@
         <result property="eventname" column="eventName"/>
         <result property="groupname" column="groupName"/>
         <result property="type" column="type"/>
+      
+        <association property="competitionNameEntity" column="competition_id" select="io.renren.modules.generator.dao.CompetitionNameDao.queryObject">
+        </association>
+        <association property="eventNameEntity" column="event_id" select="io.renren.modules.generator.dao.EventNameDao.queryObject">
+        </association>
+        <association property="groupNameEntity" column="group_id" select="io.renren.modules.generator.dao.GroupNameDao.queryObject">
+        </association>
+        <association property="signTypeEntity" column="sign_type" select="io.renren.modules.generator.dao.SignTypeDao.queryObject">
+        </association>
     </resultMap>
 
-	<select id="queryObject" resultType="io.renren.modules.generator.entity.CompetitionInfoEntity">
+	<select id="queryObject" resultMap="competitionInfoMap">
 		select * from competition_info where id = #{value}
 	</select>
+	<select id="queryListByCompetitionId" resultMap="competitionInfoMap">
+		select * from competition_info where competition_id = #{value}
+	</select>
+	<select id="queryObjectByUnionKeys" resultType="io.renren.modules.generator.entity.CompetitionInfoEntity">
+        select * from competition_info where competition_id=#{0} and event_id=#{1} and group_id=#{2}
+	</select>
 
-	<select id="queryList" resultType="io.renren.modules.generator.entity.CompetitionInfoEntity">
+	<select id="queryList" resultMap="competitionInfoMap">
 		select * from competition_info
         <choose>
             <when test="sidx != null and sidx.trim() != ''">

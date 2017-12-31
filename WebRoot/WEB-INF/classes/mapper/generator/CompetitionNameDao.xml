@@ -12,6 +12,7 @@
         <result property="signEndDate" column="sign_end_date"/>
         <result property="limitAccount" column="limit_account"/>
         <result property="note" column="note"/>
+        <result property="signTablePath" column="sign_table_path"/>
     </resultMap>
 
 	<select id="queryObject" resultType="io.renren.modules.generator.entity.CompetitionNameEntity">
@@ -47,7 +48,8 @@
 			`sign_start_date`, 
 			`sign_end_date`, 
 			`limit_account`, 
-			`note`
+			`note`,
+			`sign_table_path`
 		)
 		values
 		(
@@ -56,7 +58,8 @@
 			#{signStartDate}, 
 			#{signEndDate}, 
 			#{limitAccount}, 
-			#{note}
+			#{note},
+			#{signTablePath}
 		)
 	</insert>
 	 
@@ -69,6 +72,7 @@
 			<if test="signEndDate != null">`sign_end_date` = #{signEndDate}, </if>
 			<if test="limitAccount != null">`limit_account` = #{limitAccount}, </if>
 			<if test="note != null">`note` = #{note}</if>
+			<if test="signTablePath != null">`sign_table_path` = #{signTablePath}</if>
 		</set>
 		where id = #{id}
 	</update>

@@ -26,6 +26,10 @@
 			<#if shiro.hasPermission("noticeboard:update")>
             <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;详情</a>
 			</#if>
+			<#if shiro.hasPermission("noticeboard:update")>
+            <a class="btn btn-primary" @click="edit"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			</#if>
+			
 		</div>
 	    <table id="jqGrid"></table>
 	    <div id="jqGridPager"></div>
@@ -57,7 +61,7 @@
 	                        标&nbsp;题：
 	                    </td>
 	                    <td width="700" valign="top" style="word-break: break-all;">
-	                        <input id="title" size="125" type="text" maxlength="40" value="" placeholder="标题不能超过40个字符"/>
+	                        <input id="title" v-model="noticeBoard.title" size="125" type="text" maxlength="40" value="" placeholder="标题不能超过40个字符"/>
 	                    </td>
 	                </tr>
 	                <tr>
@@ -76,14 +80,15 @@
 	                        内&nbsp;容：
 	                    </td>
 	                    <td width="700" valign="top" style="word-break: break-all;">
-	                        <script name="richText.content" id="content" type="text/plain"></script>
+	                        <script name="richText.content" id="content" v-model="noticeBoard.content" type="text/plain"></script>
 	                    </td>
 	                </tr>
 	              
-	                <tr>
+	                 <tr>
 	                    <td width="45" valign="top" style="word-break: break-all;"></td>
 	                    <td width="600" valign="top" style="word-break: break-all;">
-	                     <button type="submit" class="btn btn-primary" onclick="return addArticle();">提交</button>
+	                     <button type="submit" id="btn_submit" class="btn btn-primary" onclick="return addArticle();">提交</button>
+	                      <button type="submit" class="btn btn-primary">返回</button>
 	                    </td>
 	                </tr>
 	            </tbody>

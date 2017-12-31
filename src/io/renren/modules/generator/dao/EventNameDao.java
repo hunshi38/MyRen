@@ -1,5 +1,7 @@
 package io.renren.modules.generator.dao;
 
+import java.util.List;
+
 import io.renren.modules.generator.entity.EventNameEntity;
 import io.renren.modules.sys.dao.BaseDao;
 /**
@@ -10,5 +12,5 @@ import io.renren.modules.sys.dao.BaseDao;
  * @date 2017-11-01 11:46:16
  */
 public interface EventNameDao extends BaseDao<EventNameEntity> {
-	
+	List<EventNameEntity>queryListByCompetitionId(Integer competitionId);
 }

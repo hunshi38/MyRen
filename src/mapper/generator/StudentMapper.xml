@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="io.renren.modules.generator.dao.StudentMapper">
+                 
+    <!-- 多对一查询  -->
+    <resultMap type="io.renren.modules.generator.entity.Student" id="slist">
+        <!-- 跟一对一一样用association标签,实体类定义的成员,要跟数据库字段名对应上 -->
+        <association property="studentmajor" column="major" 
+        select="io.renren.modules.generator.dao.StudentMajorMapper.select"/> <!-- 用接口里定义的方法，根据student表中的major字段查出对应数据 -->
+    </resultMap>
+    <!-- 查全部 -->
+    <select id="selectall" resultMap="slist" >
+        select * from student
+    </select>
+    <select id="queryObject" resultMap="slist" >
+        select * from student where id=#{value}
+    </select>
+    <!-- 根据专业查人员  
+    <select id="selectz" parameterType="Integer" resultMap="slist">
+        select * from student s where s.major=#{major} 
+    </select>
+    -->
+ </mapper>

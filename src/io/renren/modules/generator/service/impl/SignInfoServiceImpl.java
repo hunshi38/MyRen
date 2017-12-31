@@ -51,5 +51,24 @@ public class SignInfoServiceImpl implements SignInfoService {
 	public void deleteBatch(Integer[] ids){
 		signInfoDao.deleteBatch(ids);
 	}
+
+	@Override
+	public SignInfoEntity queryObjectByIdCardAndCompetitionId(
+			Integer competitionId, String idCard) {
+		// TODO Auto-generated method stub
+		return signInfoDao.queryObjectByIdCardAndCompetitionId(competitionId, idCard);
+	}
+
+	@Override
+	public List<Integer> getTeamListByCompetitonId(Integer competitionId) {
+		// TODO Auto-generated method stub
+		return signInfoDao.getTeamListByCompetitonId(competitionId);
+	}
+
+	@Override
+	public List<Integer> getTeamListByGroupId(Integer groupId) {
+		// TODO Auto-generated method stub
+		return signInfoDao.getTeamListByGroupId(groupId);
+	}
 	
 }

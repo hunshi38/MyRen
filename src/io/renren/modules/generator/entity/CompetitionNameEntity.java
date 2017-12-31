@@ -29,6 +29,8 @@ public class CompetitionNameEntity implements Serializable {
 	private String limitAccount;
 	//
 	private String note;
+	
+	private String signTablePath;
 
 	/**
 	 * 设置：
@@ -113,5 +115,11 @@ public class CompetitionNameEntity implements Serializable {
 	 */
 	public String getNote() {
 		return note;
+	}
+	public String getSignTablePath() {
+		return signTablePath;
+	}
+	public void setSignTablePath(String signTablePath) {
+		this.signTablePath = signTablePath;
 	}
 }

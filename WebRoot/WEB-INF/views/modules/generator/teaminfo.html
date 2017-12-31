@@ -3,25 +3,33 @@
 <head>
 <title></title>
 <#include "/header.html">
+<style>
+	table{
+		width:100%;
+		border-spacing: 30px;
+		text-align:center;
+	}
+	tr,td,h2,h4{
+	text-align:center;
+	}
+</style>
 </head>
 <body>
 <div id="rrapp" v-cloak>
 	<div v-show="showList">
 		<div class="grid-btn">
-			<#if shiro.hasPermission("teaminfo:save")>
-            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
-			</#if>
 			<#if shiro.hasPermission("teaminfo:update")>
-            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+            <a class="btn btn-primary" @click="detail"><i class="fa fa-pencil-square-o"></i>&nbsp;详情</a>
 			</#if>
 			<#if shiro.hasPermission("teaminfo:delete")>
             <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
 			</#if>
+			
 		</div>
 	    <table id="jqGrid"></table>
 	    <div id="jqGridPager"></div>
     </div>
-    
+  <!--   
     <div v-show="!showList" class="panel panel-default">
 		<div class="panel-heading">{{title}}</div>
 		<form class="form-horizontal">
@@ -93,6 +101,39 @@
 		</form>
 	</div>
 </div>
+--> 
+
+
+  <div v-show="detailinfo" class="panel panel-default">
+		<div class="panel-heading">{{title}}</div>
+	
+	<div class="mail-box-header">
+		<table  style="border-collapse:separate; border-spacing:10px;">
+			<tr><th><h2>报名队伍信息详情</h2></th></tr>			
+			
+		</table>
+		<table  style="border-collapse:separate; border-spacing:10px;">
+				<tr><td><h4 id="competition-name"></h4></td></tr>				
+				<tr><td><h4 id="company"></h4></td></tr>
+				<tr>
+					<td><h4 id="leader"></h4></td>
+				
+				</tr>
+				<tr>
+					<td><h4 id="captain"></h4></td>
+				</tr>
+			
+		</table>
+		<table id="athSet" style="border-collapse:separate; border-spacing:30px;text-align:center;">	
+		</table>
+		<br/>
+		<br/>	
+	<div style="text-align:center"><input  type="button" class="btn btn-warning" onclick="return back();" value="返回"/>
+	</div>
+	</div>
+	
+</div>
+
 
 <script src="${request.contextPath}/statics/js/modules/generator/teaminfo.js?_${.now?long}"></script>
 </body>

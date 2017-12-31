@@ -5,6 +5,8 @@ import io.renren.modules.generator.entity.TeamInfoEntity;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 /**
  * 
  * 
@@ -27,4 +29,9 @@ public interface TeamInfoService {
 	void delete(Integer id);
 	
 	void deleteBatch(Integer[] ids);
+	List<TeamInfoEntity> queryByCondition(Map<String, Object> map);
+	List<String>getCompanyList(List<Integer> teamIdList);
+	List<TeamInfoEntity>fuzzyQuery(String name,String company,List<Integer> teamIdList);
+	List<TeamInfoEntity>getTeamList(List<Integer> teamIdList);
+
 }

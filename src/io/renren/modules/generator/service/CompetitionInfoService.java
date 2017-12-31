@@ -27,4 +27,5 @@ public interface CompetitionInfoService {
 	void delete(Integer id);
 	
 	void deleteBatch(Integer[] ids);
+	List<CompetitionInfoEntity>queryListByCompetitionId(Integer id);
 }

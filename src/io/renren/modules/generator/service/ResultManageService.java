@@ -27,4 +27,5 @@ public interface ResultManageService {
 	void delete(Integer id);
 	
 	void deleteBatch(Integer[] ids);
+	ResultManageEntity queryObjectByCompetitionId(Integer competitionId);
 }

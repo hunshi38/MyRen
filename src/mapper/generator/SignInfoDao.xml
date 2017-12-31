@@ -7,16 +7,35 @@
     <resultMap type="io.renren.modules.generator.entity.SignInfoEntity" id="signInfoMap">
         <result property="id" column="id"/>
         <result property="competitionId" column="competition_id"/>
-        <result property="teamId" column="team_id"/>
-        <result property="checkStatus" column="check_status"/>
+         <result property="teamId" column="team_id"/>
+         <result property="checkStatus" column="check_status"/>
         <result property="note" column="note"/>
+         <result property="signTime" column="sign_time"/>
+        <association property="competitionInfoEntity" column="competition_id" select="io.renren.modules.generator.dao.CompetitionInfoDao.queryObject">
+        </association>
+        <association property="teamInfoEntity" column="team_id" select="io.renren.modules.generator.dao.TeamInfoDao.queryObject">
+        </association>
+         <association property="checkStatusEntity" column="check_status" select="io.renren.modules.generator.dao.CheckStatusDao.queryObject">
+        </association>
     </resultMap>
-
+    
 	<select id="queryObject" resultType="io.renren.modules.generator.entity.SignInfoEntity">
 		select * from sign_info where id = #{value}
 	</select>
+<select id="queryObjectByIdCardAndCompetitionId"  resultType="io.renren.modules.generator.entity.SignInfoEntity">
+		select * from sign_info where competition_id =#{competitionId} and team_id = (select id from team_info t where t.athlete_id_set like concat('%', #{idCard}, '%'))
 
-	<select id="queryList" resultType="io.renren.modules.generator.entity.SignInfoEntity">
+	</select>
+	<select id="getTeamListByCompetitonId"  resultType="int">
+		select team_id from sign_info where competition_id in (select id from competition_info where competition_id=#{value})
+	</select>
+     <select id="getTeamListByGroupId"  resultType="int">
+		select team_id from sign_info where competition_id in (select id from competition_info where group_id=#{value})
+	</select>
+
+
+
+	<select id="queryList" resultMap="signInfoMap">
 		select * from sign_info
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
@@ -41,14 +60,17 @@
 			`competition_id`, 
 			`team_id`, 
 			`check_status`, 
-			`note`
+			`note`,
+			`sign_time`
+			
 		)
 		values
 		(
 			#{competitionId}, 
 			#{teamId}, 
 			#{checkStatus}, 
-			#{note}
+			#{note},
+			#{signTime}
 		)
 	</insert>
 	 
@@ -59,6 +81,7 @@
 			<if test="teamId != null">`team_id` = #{teamId}, </if>
 			<if test="checkStatus != null">`check_status` = #{checkStatus}, </if>
 			<if test="note != null">`note` = #{note}</if>
+			<if test="signTime != null">`sign_time` = #{signTime}</if>
 		</set>
 		where id = #{id}
 	</update>
@@ -73,5 +96,6 @@
 			#{id}
 		</foreach>
 	</delete>
+	
 
 </mapper>

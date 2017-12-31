@@ -27,4 +27,7 @@ public interface SignInfoService {
 	void delete(Integer id);
 	
 	void deleteBatch(Integer[] ids);
+	SignInfoEntity queryObjectByIdCardAndCompetitionId(Integer competitionId,String idCard);
+	List<Integer>getTeamListByCompetitonId(Integer competitionId);
+	List<Integer>getTeamListByGroupId(Integer groupId);
 }

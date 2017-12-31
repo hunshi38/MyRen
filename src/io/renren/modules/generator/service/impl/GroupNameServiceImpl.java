@@ -51,5 +51,19 @@ public class GroupNameServiceImpl implements GroupNameService {
 	public void deleteBatch(Integer[] ids){
 		groupNameDao.deleteBatch(ids);
 	}
+
+	@Override
+	public List<GroupNameEntity> queryListByCompetitionIdAndEventId(
+			Integer competitonId, Integer eventId) {
+		
+		return groupNameDao.queryListByCompetitionIdAndEventId(competitonId, eventId);
+	}
+
+	@Override
+	public List<GroupNameEntity> queryListByCompetitionId(Integer competitonId) {
+		// TODO Auto-generated method stub
+		return groupNameDao.queryListByCompetitionId(competitonId);
+	}
+	
 	
 }

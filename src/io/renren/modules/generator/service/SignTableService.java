@@ -5,6 +5,8 @@ import io.renren.modules.generator.entity.SignTableEntity;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 /**
  * 
  * 
@@ -27,4 +29,7 @@ public interface SignTableService {
 	void delete(Integer id);
 	
 	void deleteBatch(Integer[] ids);
+	SignTableEntity queryObjectByfrontUserId2(Integer id,Integer competitionId);
+	SignTableEntity queryObjectByFilePath(String path);
+	List<Integer>getSignYears();
 }

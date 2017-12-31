@@ -11,11 +11,15 @@
         <result property="userType" column="user_type"/>
         <result property="note" column="note"/>
         <result property="ut" column="ut"/>
+        <result property="md5" column="md5"/>
     </resultMap>
-
+       <select id="auth" resultType="io.renren.modules.generator.entity.UserEntity">
+		select * from user where user_name = #{userName} and md5=#{md5}
+	</select>
 	<select id="queryObject" resultType="io.renren.modules.generator.entity.UserEntity">
 		select * from user where id = #{value}
 	</select>
+		
 
 	<select id="queryList" resultType="io.renren.modules.generator.entity.UserEntity">
 		select * from user
@@ -43,7 +47,8 @@
 			`password`, 
 			`user_type`, 
 			`note`, 
-			`ut`
+			`ut`,
+			`md5`
 		)
 		values
 		(
@@ -51,7 +56,8 @@
 			#{password}, 
 			#{userType}, 
 			#{note}, 
-			#{ut}
+			#{ut},
+			#{md5}
 		)
 	</insert>
 	 
@@ -63,6 +69,7 @@
 			<if test="userType != null">`user_type` = #{userType}, </if>
 			<if test="note != null">`note` = #{note}, </if>
 			<if test="ut != null">`ut` = #{ut}</if>
+			<if test="md5 != null">`md5` = #{md5}</if>
 		</set>
 		where id = #{id}
 	</update>

@@ -1,10 +1,12 @@
 package io.renren.modules.generator.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.renren.modules.generator.entity.CompetitionInfoEntity;
+import io.renren.modules.generator.entity.CompetitionNameEntity;
+import io.renren.modules.generator.entity.EventNameEntity;
 import io.renren.modules.generator.service.CompetitionInfoService;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
@@ -25,7 +29,8 @@ import io.renren.common.utils.R;
  * @email sunlightcs@gmail.com
  * @date 2017-11-01 11:46:17
  */
-@RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RestController 
 @RequestMapping("competitioninfo")
 public class CompetitionInfoController {
 	@Autowired
@@ -41,6 +46,7 @@ public class CompetitionInfoController {
         Query query = new Query(params);
 
 		List<CompetitionInfoEntity> competitionInfoList = competitionInfoService.queryList(query);
+	
 		int total = competitionInfoService.queryTotal(query);
 		
 		PageUtils pageUtil = new PageUtils(competitionInfoList, total, query.getLimit(), query.getPage());
@@ -48,7 +54,7 @@ public class CompetitionInfoController {
 		return R.ok().put("page", pageUtil);
 	}
 	
-	
+
 	/**
 	 * 信息
 	 */

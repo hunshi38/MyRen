@@ -1,5 +1,6 @@
 package io.renren.modules.generator.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,17 +36,12 @@ public class SignTypeController {
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	@RequiresPermissions("signtype:list")
-	public R list(@RequestParam Map<String, Object> params){
+	public R list(){
 		//查询列表数据
-        Query query = new Query(params);
-
-		List<SignTypeEntity> signTypeList = signTypeService.queryList(query);
-		int total = signTypeService.queryTotal(query);
-		
-		PageUtils pageUtil = new PageUtils(signTypeList, total, query.getLimit(), query.getPage());
-		
-		return R.ok().put("page", pageUtil);
+		Map<String,Object>map = new HashMap<String,Object>();      
+      List<SignTypeEntity> signTypeList = signTypeService.queryList(map);
+	
+		return R.ok().put("list", signTypeList);
 	}
 	
 	

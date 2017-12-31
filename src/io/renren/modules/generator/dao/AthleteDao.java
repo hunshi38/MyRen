@@ -11,5 +11,5 @@ import io.renren.modules.sys.dao.BaseDao;
  * @date 2017-11-01 11:46:17
  */
 public interface AthleteDao extends BaseDao<AthleteEntity> {
-	
+	AthleteEntity queryObjectByCardId(String idCard);
 }

@@ -25,6 +25,7 @@ public class ResultManageEntity implements Serializable {
 	private String resultFilePath;
 	//
 	private String resultName;
+	private String uuid;
 
 	/**
 	 * 设置：
@@ -85,5 +86,11 @@ public class ResultManageEntity implements Serializable {
 	 */
 	public String getResultName() {
 		return resultName;
+	}
+	public String getUuid() {
+		return uuid;
+	}
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 }

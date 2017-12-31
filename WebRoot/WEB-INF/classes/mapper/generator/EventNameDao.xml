@@ -8,10 +8,15 @@
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="note" column="note"/>
-    </resultMap>
+        
+     </resultMap>
 
 	<select id="queryObject" resultType="io.renren.modules.generator.entity.EventNameEntity">
 		select * from event_name where id = #{value}
+	</select>
+	
+	<select id="queryListByCompetitionId" resultType="io.renren.modules.generator.entity.EventNameEntity">
+	select * from event_name where id in(select distinct(d.event_id) from competition_info d where d.competition_id=#{value})
 	</select>
 
 	<select id="queryList" resultType="io.renren.modules.generator.entity.EventNameEntity">

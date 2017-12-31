@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>导航</title>
+		<link rel="stylesheet" type="text/css" href="${request.contextPath}/before/css/headbase.css" media="all" />
+		<link href="${request.contextPath}/before/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<style type="text/css" media="screen">
+			body {
+				background-color: #F6F8F8;
+				
+				overflow: hidden;
+				width: 1280px;
+				margin: auto;
+			}
+			
+			a {
+				color: #fff;
+			}
+			
+			a:hover {
+				color: #3d61a2;
+				text-decoration: none;
+			}
+			
+			.demo {
+				/*margin-top: 40px;*/
+				background-color: #446CB3;
+				min-height: 45px;
+				width: 1280px;
+			}
+			
+			.page-menu-wrapper {
+				width: 960px;
+				line-height: 45px;
+				margin: 0 auto;
+				background-color: #446cb3;
+			}
+			
+			.page-menu-wrapper>ul>li {
+				position: relative;
+				float: left;
+				border-left: 1px solid #3d61a2;
+				border-right: 1px solid #3d61a2;
+				margin-right: -1px;
+			}
+			
+			.menu-function {
+				float: left;
+			}
+			
+			.menu-share {
+				float: right;
+			}
+			
+			.page-menu-wrapper>.menu-function>li:first-child {
+				border-left: none;
+			}
+			
+			.page-menu-wrapper>.menu-share>li:last-child {
+				border-right: none;
+			}
+			
+			.page-menu-wrapper a {
+				position: relative;
+				display: block;
+				padding: 0 15px;
+				transition: all .3s ease-out;
+			}
+			
+			.page-menu-wrapper>ul>li:hover>a {
+				color: #3d61a2;
+				background-color: #fff;
+			}
+			
+			.menu-function>li>a,
+			.menu-share>li>a {
+				padding-left: 20px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+
+		<div class="page">
+			<header id="header">
+				<hgroup class="white blank">
+
+				</hgroup>
+			</header>
+			<section class="demo">
+				<div class="page-menu-wrapper clearfix">
+					<ul class="menu-function">
+					<li>
+						<a href="/MyRen/user/noticelist" target="main"><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;赛事公告</a>
+					</li>
+					<li><a href="/MyRen/user/public" target="main"><i class="fa fa-hand-pointer-o"></i>&nbsp;&nbsp;群众赛事报名</a></li>
+					<li>
+						<a href="/MyRen/user/grade" target="main"><i class="fa fa-search"></i>&nbsp;&nbsp;赛事成绩查询</a>
+					</li>
+				</ul>
+				</div>
+			</section>
+		</div>
+	</body>
+
+</html>

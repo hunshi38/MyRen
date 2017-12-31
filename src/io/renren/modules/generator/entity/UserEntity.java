@@ -27,6 +27,8 @@ public class UserEntity implements Serializable {
 	private String note;
 	//
 	private String ut;
+	
+	private String md5;
 
 	/**
 	 * 设置：
@@ -99,5 +101,11 @@ public class UserEntity implements Serializable {
 	 */
 	public String getUt() {
 		return ut;
+	}
+	public String getMd5() {
+		return md5;
+	}
+	public void setMd5(String md5) {
+		this.md5 = md5;
 	}
 }

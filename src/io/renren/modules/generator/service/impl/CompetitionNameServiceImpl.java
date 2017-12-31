@@ -19,6 +19,7 @@ public class CompetitionNameServiceImpl implements CompetitionNameService {
 	
 	@Override
 	public CompetitionNameEntity queryObject(Integer id){
+		System.out.println("-----------");
 		return competitionNameDao.queryObject(id);
 	}
 	

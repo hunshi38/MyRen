@@ -17,6 +17,11 @@ public class CompetitionInfoEntity implements Serializable {
 	
 	//
 	private Integer id;
+
+	private CompetitionNameEntity competitionNameEntity;
+	private EventNameEntity eventNameEntity;
+	private GroupNameEntity groupNameEntity;
+	private SignTypeEntity signTypeEntity;
 	//赛事id
 	private Integer competitionId;
 	//项目id
@@ -36,6 +41,10 @@ public class CompetitionInfoEntity implements Serializable {
 	//
 	private String type;
 
+	@Override
+	public String toString(){
+		return id+"-"+competitionNameEntity+groupId+eventId+signType;
+	}
 	/**
 	 * 设置：
 	 */
@@ -48,18 +57,7 @@ public class CompetitionInfoEntity implements Serializable {
 	public Integer getId() {
 		return id;
 	}
-	/**
-	 * 设置：赛事id
-	 */
-	public void setCompetitionId(Integer competitionId) {
-		this.competitionId = competitionId;
-	}
-	/**
-	 * 获取：赛事id
-	 */
-	public Integer getCompetitionId() {
-		return competitionId;
-	}
+	
 	/**
 	 * 设置：项目id
 	 */
@@ -155,5 +153,35 @@ public class CompetitionInfoEntity implements Serializable {
 	 */
 	public String getType() {
 		return type;
+	}
+	public CompetitionNameEntity getCompetitionNameEntity() {
+		return competitionNameEntity;
+	}
+	public void setCompetitionNameEntity(CompetitionNameEntity competitionNameEntity) {
+		this.competitionNameEntity = competitionNameEntity;
+	}
+	public EventNameEntity getEventNameEntity() {
+		return eventNameEntity;
+	}
+	public void setEventNameEntity(EventNameEntity eventNameEntity) {
+		this.eventNameEntity = eventNameEntity;
+	}
+	public GroupNameEntity getGroupNameEntity() {
+		return groupNameEntity;
+	}
+	public void setGroupNameEntity(GroupNameEntity groupNameEntity) {
+		this.groupNameEntity = groupNameEntity;
+	}
+	public SignTypeEntity getSignTypeEntity() {
+		return signTypeEntity;
+	}
+	public void setSignTypeEntity(SignTypeEntity signTypeEntity) {
+		this.signTypeEntity = signTypeEntity;
+	}
+	public Integer getCompetitionId() {
+		return competitionId;
+	}
+	public void setCompetitionId(Integer competitionId) {
+		this.competitionId = competitionId;
 	}
 }

@@ -51,5 +51,24 @@ public class SignTableServiceImpl implements SignTableService {
 	public void deleteBatch(Integer[] ids){
 		signTableDao.deleteBatch(ids);
 	}
+
+	@Override
+	public SignTableEntity queryObjectByfrontUserId2(Integer id,
+			Integer competitionId) {
+		// TODO Auto-generated method stub
+		return signTableDao.queryObjectByfrontUserId2(id, competitionId);
+	}
+
+	@Override
+	public SignTableEntity queryObjectByFilePath(String path) {
+		// TODO Auto-generated method stub
+		return signTableDao.queryObjectByFilePath(path);
+	}
+
+	@Override
+	public List<Integer> getSignYears() {
+		// TODO Auto-generated method stub
+		return signTableDao.getSignYears();
+	}
 	
 }

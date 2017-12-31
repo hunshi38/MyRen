@@ -27,4 +27,6 @@ public interface GroupNameService {
 	void delete(Integer id);
 	
 	void deleteBatch(Integer[] ids);
+	List<GroupNameEntity>queryListByCompetitionIdAndEventId(Integer competitonId,Integer eventId);
+	List<GroupNameEntity>queryListByCompetitionId(Integer competitonId);
 }

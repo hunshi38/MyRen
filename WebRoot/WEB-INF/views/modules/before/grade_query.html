@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>赛事查询页</title>
+		<script src="${request.contextPath}/before/js/jquery-3.2.1.min.js"></script>
+		<link href="${request.contextPath}/before/css/bootstrap-select.css" rel="stylesheet" />
+		<link href="${request.contextPath}/before/css/qgrade-style.css" rel="stylesheet" />
+		<script src="${request.contextPath}/before/js/bootstrap-select.js"></script>
+		<script src="${request.contextPath}/before/js/bootstrap.min.js"></script>
+		<link href="${request.contextPath}/before/css/bootstrap.min.css" rel="stylesheet">
+		<link href="${request.contextPath}/before/css/buttons.css" rel="stylesheet">
+		<link href="${request.contextPath}/before/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<div class="content">
+			<div class="selectpad">
+				<div class="select1">
+					<select id="matchtype" class="selectpicker" data-live-search="true" title="选择赛事类型" onchange="getMatchList()">
+						<option value="1">群众赛事</option>
+						<option value="0">竞技赛事</option>
+					</select>
+				</div>
+				<div class="select2">
+					<select id="matchs" class="selectpicker" data-live-search="true" title="选择赛事" onchange="hidepad()">
+
+					</select>
+				</div>
+				<button class="button button-3d button-primary button-rounded" style="margin-left: 20px;margin-top: 15px;" onclick="getGrade()"><i class="fa fa-repeat fa-lg"></i>&nbsp;查询</button>
+			</div>
+			<div style="width: 1280px;height: 50px;position: relative;float: left; background-color:#889CBF">
+				<span id="errormsg" style="margin-left: 15%;margin-top:20px;z-index: -1; color: red;font-size: 15px;"></span>
+			</div>
+			<div class="btnpad" id="btnpad" hidden="hidden">
+				<div style="width: 60%;float: left;">
+					<a class="button button-3d button-primary button-rounded" style="margin-left: 25%;margin-top: 15px;" onclick="previewGrade()"><i class="fa fa-link fa-lg"></i>&nbsp;在线预览</a>
+					<a id="btn_downfile" class="button button-3d button-primary button-rounded" style="margin-left: 50px;margin-top: 15px;"><i class="fa fa-download fa-lg"></i>&nbsp;下载成绩单</a>
+				</div>
+				<div style="width: 35%;float: left;">
+					<img src="images/saoma.png" style="margin-top: 20px;margin-left:20px;float: left;">
+					<img id="precode" style="margin-top: 20px;margin-left: 10px;float: left;" />
+				</div>
+			</div>
+		</div>
+		<script>
+			var preview_url = undefined
+			var down_path = undefined
+			var getMatchList = function() {
+				hidepad()
+				var type = $("#matchtype").val()
+				$.ajax({
+					url: "/MyRen/competitionname/listType/" + type,
+					dataType: 'json',
+					type: "GET",
+					async: false,
+					success: function(data) {
+						list = data.list;
+						$("#matchs").empty()
+						for(c in list) {
+							var obj = list[c];
+							var name = obj.name;
+							var mat = "<option  value=" + obj.id + ">" + name + "</option>"
+							$("#matchs").append(mat)
+						}
+						$("#matchs").selectpicker('refresh')
+					},
+					error: function() {
+						alert('请求出错');
+					},
+					complete: function() {
+						// 请求完成后执行的函数
+					}
+				})
+			}
+
+			var hidepad = function() {
+				$("#errormsg").hide()
+				$("#btnpad").hide()
+			}
+
+			var getGrade = function() {
+				hidepad()
+				var cid = $("#matchs").val()
+				if(cid == null || cid == "") {
+					$("#errormsg").text("请选择赛事！")
+					$("#errormsg").show()
+					return
+				}
+				$.ajax({
+					url: "/MyRen/resultmanage/queryGrade?competitionId=" + cid,
+					dataType: 'json',
+					type: "GET",
+					async: false,
+					success: function(data) {
+						if(data.code == 0) {
+							preview_url = data.result.uuid
+							down_path = data.result.resultFilePath
+							code_url = data.result.additionalWord
+							$("#btn_downfile").attr("href", "/MyRen/resultmanage/download?filename=" + down_path)
+							$("#precode").attr("src", code_url)
+							$("#btnpad").show()
+						} else {
+							$("#errormsg").text(data.msg)
+							$("#errormsg").show()
+						}
+					},
+					error: function() {
+						alert('请求出错');
+					},
+					complete: function() {
+						// 请求完成后执行的函数
+					}
+				})
+			}
+
+			var previewGrade = function() {
+				window.open(preview_url)
+			}
+		</script>
+	</body>
+
+</html>

@@ -51,5 +51,11 @@ public class ResultManageServiceImpl implements ResultManageService {
 	public void deleteBatch(Integer[] ids){
 		resultManageDao.deleteBatch(ids);
 	}
+
+	@Override
+	public ResultManageEntity queryObjectByCompetitionId(Integer competitionId) {
+		// TODO Auto-generated method stub
+		return resultManageDao.queryObjectByCompetitionId(competitionId);
+	}
 	
 }

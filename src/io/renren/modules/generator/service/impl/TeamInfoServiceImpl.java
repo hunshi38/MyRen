@@ -51,5 +51,30 @@ public class TeamInfoServiceImpl implements TeamInfoService {
 	public void deleteBatch(Integer[] ids){
 		teamInfoDao.deleteBatch(ids);
 	}
+
+	@Override
+	public List<TeamInfoEntity> queryByCondition(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return teamInfoDao.queryByCondition(map);
+	}
+
+	@Override
+	public List<String> getCompanyList(List<Integer> teamIdList) {
+		// TODO Auto-generated method stub
+		return teamInfoDao.getCompanyList(teamIdList);
+	}
+
+	@Override
+	public List<TeamInfoEntity> fuzzyQuery(String name, String company,
+			List<Integer> teamIdList) {
+		// TODO Auto-generated method stub
+		return teamInfoDao.fuzzyQuery(name, company, teamIdList);
+	}
+
+	@Override
+	public List<TeamInfoEntity> getTeamList(List<Integer> teamIdList) {
+		// TODO Auto-generated method stub
+		return teamInfoDao.getTeamList(teamIdList);
+	}
 	
 }

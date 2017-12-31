@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>群众赛事报名页</title>
+		<script src="${request.contextPath}/before/js/jquery-3.2.1.min.js"></script>
+		<link href="${request.contextPath}/before/css/csign-style.css" rel="stylesheet" type="text/css" />
+		<link href="${request.contextPath}/before/css/btnstyle.css" rel="stylesheet" type="text/css" />
+		<link href="${request.contextPath}/before/css/bootstrap-select.css" rel="stylesheet" />
+		<script src="${request.contextPath}/before/js/showBo.js"></script>
+		<link rel="stylesheet" href="${request.contextPath}/before/css/showBo.css">
+		<script src="${request.contextPath}/before/js/bootstrap-select.js"></script>
+		<script src="${request.contextPath}/before/js/bootstrap.min.js"></script>
+		<link href="${request.contextPath}/before/css/bootstrap.min.css" rel="stylesheet">
+		<link href="${request.contextPath}/before/css/buttons.css" rel="stylesheet">
+		<link href="${request.contextPath}/before/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	</head>
+
+	<body style="width: 1280px;margin: auto;">
+		<div class="content">
+			<div class="selectpad">
+				<div class="select1">
+					<select id="matchs" class="selectpicker" data-live-search="true" title="选择赛事" onchange="getProjectData()">
+
+					</select>
+				</div>
+				<div class="select2">
+					<select id="project" class="selectpicker" data-live-search="true" title="选择项目" onchange="getGroupData()">
+
+					</select>
+				</div>
+				<div class="select3">
+					<select id="group" class="selectpicker" data-live-search="true" title="选择组别" onchange="showNumber()">
+
+					</select>
+				</div>
+			</div>
+			<div style="width: 100%;height: 25px;position: relative;float: left; background-color:#889CBF">
+				<span id="numberInfo" style="margin-left: 15%;z-index: -1; color: white;"></span>
+			</div>
+			<div style="width: 100%;height: 25px;position: relative;float: left; background-color:#889CBF">
+				<span id="errormsg" style="margin-left: 15%;z-index: -1; color: red;"></span>
+			</div>
+			<HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="100%" color=#C4E3F3 SIZE=3>
+
+			<!--报名表填写-->
+			<div class="signtable">
+				<!--创建模态框(Modal)-->
+				<div class="modal fade" id="modal-sign" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="margin-top: 130px;">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<!--对话框标题-->
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="myModalLabel">报名信息</h4>
+							</div>
+							<!--对话框输入-->
+							<div class="modal-body">
+								<form class="form-horizontal" role="form">
+									<div class="form-group">
+										<label class="col-sm-2 control-label">姓名</label>
+										<div class="col-sm-4">
+											<input type="text" class="form-control" id="name" placeholder="请输入名字">
+										</div>
+										<label id="errorname" class="col-sm-4 control-label" style="text-align: left;color: red;"></label>
+										<!--<label id="warnName" class="col-sm-2" style="color: red;width: auto;margin-top: 5px;"></label>-->
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">性别</label>
+										<div class="col-sm-4">
+											<label class="radio-inline">
+       						 				<input type="radio"  class="sex1" id="sex1" name="optionsRadiosinline" checked>男
+    									</label>
+											<label class="radio-inline">
+       						 				<input type="radio"  class="sex2" id="sex2"  name="optionsRadiosinline">女
+    									</label>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">身份证号</label>
+										<div class="col-sm-4">
+											<input type="text" class="form-control" id="idCard" placeholder="请输入身份证号">
+										</div>
+										<label id="erroridcard" class="col-sm-4 control-label" style="text-align: left;color: red;"></label>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">联系电话</label>
+										<div class="col-sm-4">
+											<input type="text" class="form-control" id="phoneNumber" placeholder="请输入联系电话">
+										</div>
+										<label id="errorphone" class="col-sm-4 control-label" style="text-align: left;color: red;"></label>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label">单位</label>
+										<div class="col-sm-4">
+											<input type="text" class="form-control" id="company" placeholder="请输入单位信息">
+										</div>
+										<label id="errorcompany" class="col-sm-4 control-label" style="text-align: left;color: red;"></label>
+									</div>
+								</form>
+							</div>
+							<!--对话框提交-->
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+								<button onclick="checkInfo()" type="button" class="btn btn-primary">确认</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+				</div>
+
+				<div style="width: 100%;position: relative;float: left;">
+					<table id="table-3" hidden="hidden" style="margin-left: 17%;">
+						<thead>
+							<th>姓名</th>
+							<th>性别</th>
+							<th>身份证号</th>
+							<th>联系电话</th>
+							<th>单位</th>
+							<th></th>
+							<th></th>
+						</thead>
+						<tbody id="table-body">
+
+						</tbody>
+					</table>
+					<a style="margin-left: 60%;" class="button button-3d button-primary button-rounded" data-toggle="modal" data-target="#modal-sign" onclick="showPad()"><i class="fa fa-user-plus"></i>&nbsp;添加报名信息</a>
+					<a style="margin-left: 10px;" class="button button-3d button-primary button-rounded" onclick="signTable()"><i class="fa fa-upload"></i>&nbsp;提交</a>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			var groups = undefined
+			var obj = undefined //table编辑项
+			var jud = 0 //判断模态框是添加模式还是编辑模式
+
+			$(document).ready(function() {
+				getMatchData()
+			})
+
+			var getMatchData = function() {
+
+				$.ajax({
+					url: "/MyRen/competitionname/listType/1",
+					dataType: 'json',
+					type: "GET",
+					async: false,
+					success: function(data) {
+						//matchs = data.list
+						showMatchs(data.list)
+					},
+					error: function() {
+						alert('请求出错');
+					},
+					complete: function() {
+						// 请求完成后执行的函数
+					}
+				})
+			}
+
+			var getProjectData = function() {
+				hideMsg()
+				var id = $("#matchs").val()
+				$.ajax({
+					url: "/MyRen/eventname/user/getEventListByCompetitionId",
+					dataType: 'json',
+					data: {
+						competitionId: id,
+					},
+					type: "GET",
+					async: false,
+					success: function(data) {
+						showProject(data.eventlist)
+					},
+					error: function() {
+						alert('请求出错');
+					},
+					complete: function() {
+						// 请求完成后执行的函数
+					}
+				})
+			}
+
+			var getGroupData = function() {
+				hideMsg()
+				var cid = $("#matchs").val()
+				var eid = $("#project").val()
+				$.ajax({
+					url: "/MyRen/groupname/user/getGroupListById",
+					dataType: 'json',
+					data: {
+						competitionId: cid,
+						eventId: eid,
+					},
+					type: "GET",
+					async: false,
+					success: function(data) {
+						groups = data.groupList
+						showGroups(data.groupList)
+					},
+					error: function() {
+						alert('请求出错');
+					},
+					complete: function() {
+						// 请求完成后执行的函数
+					}
+				})
+			}
+
+			// ajax取得赛事项目数据后，显示在select中
+			var showMatchs = function(data) {
+				data.forEach(function(e) {
+					// 创建元素，插入select
+					var match = "<option  value=" + e['id'] + ">" + e['name'] + "</option>"
+					$("#matchs").append(match)
+				})
+				$("#matchs").selectpicker('refresh')
+			}
+
+			var showProject = function(data) {
+				$("#project").empty()
+				$("#group").empty()
+				$("#group").selectpicker('refresh')
+				data.forEach(function(e) {
+					// 创建元素，插入select
+					var proj = "<option  value=" + e['id'] + ">" + e['name'] + "</option>"
+					$("#project").append(proj)
+				})
+				$("#project").selectpicker('refresh')
+			}
+
+			var showGroups = function(data) {
+				$("#group").empty()
+				data.forEach(function(e) {
+					// 创建元素，插入select
+					var gro = "<option  value=" + e['id'] + ">" + e['groupName'] + "</option>"
+					$("#group").append(gro)
+				})
+				$("#group").selectpicker('refresh')
+			}
+
+			var getGroupInfo = function() {
+				var group_id = $("#group").val()
+				var group = groups.find(function(group) {
+					return group['id'] == group_id
+				})
+				return group
+
+			}
+
+			//			var getMatchInfo = function() {
+			//				var match_id = $("#matchs").val()
+			//				var match = matchs.find(function(match) {
+			//					return match['id'] == match_id
+			//				})
+			//				return match
+			//			}
+
+			// 根据用户选择的项目，显示参赛人数的要求
+			var showNumber = function() {
+				var group = getGroupInfo()
+				if(group !== undefined) {
+					var number_info = "参赛人数最少为" + group["minSum"] +
+						"，最多为" + group["maxSum"]
+					// 修改文档内容，现在是用p标签，不是很明显，可以调整下格式强调下
+					$('#numberInfo').text(number_info)
+					$('#numberInfo').show()
+				}
+			}
+
+			//显示模态版
+			var showPad = function() {
+				jud = 0
+				$("#name").val("")
+				$("#idCard").val("")
+				$("#phoneNumber").val("")
+				$("#company").val("")
+
+			}
+
+			//编辑身份
+			var editPad = function(obje) {
+				jud = 1
+				obj = obje
+				var name = $(obj).parents("tr").find("td").eq(0).text()
+				var card = $(obj).parents("tr").find("td").eq(2).text()
+				var phone = $(obj).parents("tr").find("td").eq(3).text()
+				var company = $(obj).parents("tr").find("td").eq(4).text()
+				var sex = $(obj).parents("tr").find("td").eq(1).text()
+
+				$("#name").val(name)
+				$("#idCard").val(card)
+				$("#phoneNumber").val(phone)
+				$("#company").val(company)
+
+				if(sex == "男") {
+					$("#sex1").attr('checked', 'true')
+				} else if(sex == "女") {
+					$("#sex2").attr('checked', 'true')
+				}
+
+			}
+
+			var editInfo = function(player) {
+				$(obj).parents("tr").find("td").eq(0).text(player.name)
+				$(obj).parents("tr").find("td").eq(2).text(player.idCard)
+				$(obj).parents("tr").find("td").eq(3).text(player.phoneNumber)
+				$(obj).parents("tr").find("td").eq(4).text(player.company)
+				$(obj).parents("tr").find("td").eq(1).text(player.sex)
+				$("#modal-sign").modal('hide')
+			}
+
+			//验证身份证的合法性  
+			function IdentityCodeValid(code) {
+				var city = {
+					11: "北京",
+					12: "天津",
+					13: "河北",
+					14: "山西",
+					15: "内蒙古",
+					21: "辽宁",
+					22: "吉林",
+					23: "黑龙江 ",
+					31: "上海",
+					32: "江苏",
+					33: "浙江",
+					34: "安徽",
+					35: "福建",
+					36: "江西",
+					37: "山东",
+					41: "河南",
+					42: "湖北 ",
+					43: "湖南",
+					44: "广东",
+					45: "广西",
+					46: "海南",
+					50: "重庆",
+					51: "四川",
+					52: "贵州",
+					53: "云南",
+					54: "西藏 ",
+					61: "陕西",
+					62: "甘肃",
+					63: "青海",
+					64: "宁夏",
+					65: "新疆",
+					71: "台湾",
+					81: "香港",
+					82: "澳门",
+					91: "国外 "
+				};
+				var pass = true;
+
+				if(!code || !/^\d{6}(18|19|20)?\d{2}(0[1-9]|1[12])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i.test(code)) {
+					pass = false;
+				} else if(!city[code.substr(0, 2)]) {
+					pass = false;
+				} else {
+					//18位身份证需要验证最后一位校验位  
+					if(code.length == 18) {
+						code = code.split('');
+						//∑(ai×Wi)(mod 11)  
+						//加权因子  
+						var factor = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+						//校验位  
+						var parity = [1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2];
+						var sum = 0;
+						var ai = 0;
+						var wi = 0;
+						for(var i = 0; i < 17; i++) {
+							ai = code[i];
+							wi = factor[i];
+							sum += ai * wi;
+						}
+						var last = parity[sum % 11];
+						if(parity[sum % 11] != code[17]) {
+							pass = false;
+						}
+					}
+				}
+				return pass;
+			}
+
+			var checkTime = function(startDate, endDate) {
+				var d1 = new Date(startDate.replace(/\-/g, "\/"))
+				var d2 = new Date(endDate.replace(/\-/g, "\/"))
+				var now = new Date(new Date().toLocaleDateString())
+
+				if(d1 <= now && now <= d2) {
+					return true
+				}
+				return false
+			}
+
+			var hideInfoError = function() {
+				$("#errorcompany").hide()
+				$("#erroridcard").hide()
+				$("#errorname").hide()
+				$("#errorphone").hide()
+			}
+
+			var checkInfo = function() {
+				hideInfoError()
+				var player = {}
+				if($("#sex1").is(":checked")) {
+					player.sex = "男"
+				} else {
+					player.sex = "女"
+				}
+
+				player.name = $("#name").val()
+				player.idCard = $("#idCard").val()
+				player.phoneNumber = $("#phoneNumber").val()
+				player.company = $("#company").val()
+
+				//名字校验
+				if(player.name == null || player.name == "") {
+					$("#errorname").text("姓名不能为空！")
+					$("#errorname").show()
+					return false
+				}
+				if(player.name.length > 6 || (!/^[\u0391-\uFFE5]+$/.test(player.name))) {
+					$("#errorname").text("姓名格式不正确！")
+					$("#errorname").show()
+					return false
+				}
+
+				//身份证号校验
+				if(!IdentityCodeValid(player.idCard)) {
+					$("#erroridcard").text("身份证号格式不正确！")
+					$("#erroridcard").show()
+					return false
+				}
+
+				//手机号验证
+				if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(player.phoneNumber))) {
+					$("#errorphone").text("电话号码格式不正确！")
+					$("#errorphone").show()
+					return false
+				}
+
+				//单位名校验
+				if(player.company == null || player.company == "" || player.length > 30) {
+					$("#errorcompany").text("单位名称格式不正确！")
+					$("#errorcompany").show()
+					return false
+				}
+
+				if(jud == 1) {
+					editInfo(player)
+				} else if(jud == 0) {
+					addInfo(player)
+				}
+			}
+
+			var addInfo = function(player) {
+				$("#errormsg").hide()
+				newInfo = '<tr> <td>' + player.name + '</td> <td>' + player.sex + '</td> <td>' + player.idCard + '</td> <td>' + player.phoneNumber + '</td> <td>' + player.company + '</td> <td> <a href="#"  data-toggle="modal" data-target="#modal-sign" onclick="editPad(this)"><img src="images/edit.png" border="0"></a> </td> <td> <a href="#" onclick="delTable(this)"><img src="images/delete.png" border="0"></a> </td> </tr>'
+				$("#table-body").append(newInfo)
+				if($("#table-3").is(":hidden")) {
+					$("#table-3").show()
+				}
+				$("#modal-sign").modal('hide')
+			}
+
+			var delTable = function(obj) {
+				$("#modal-sign").modal('hide')
+				$(obj).parents("tr").remove()
+				if($("#table-3").find("tr").length <= 1) {
+					$("#table-3").hide()
+				}
+			}
+
+			//判断报名人数
+			var checkNumber = function() {
+				var gro = getGroupInfo()
+				var tlength = parseInt($("#table-3").find("tr").length) - 1
+				if(tlength < gro['minSum']) {
+					$("#errormsg").text("报名人数不足！")
+					$("#errormsg").show()
+					return false
+				}
+				if(tlength > gro['maxSum']) {
+					$("#errormsg").text("报名人数超出限定人数！")
+					$("#errormsg").show()
+					return false
+				}
+				return true
+			}
+
+			//打包所有信息
+			var getPlayers = function() {
+				var players = []
+				var tlength = parseInt($("#table-3").find("tr").length) - 1
+				for(let i = 1; i <= tlength; i++) {
+					var o = {}
+					o.name = $("#table-3 tr:eq(" + i + ") td:eq(0)").html()
+					o.sex = $("#table-3 tr:eq(" + i + ") td:eq(1)").html()
+					o.idCard = $("#table-3 tr:eq(" + i + ") td:eq(2)").html()
+					o.phoneNumber = $("#table-3 tr:eq(" + i + ") td:eq(3)").html()
+					o.company = $("#table-3 tr:eq(" + i + ") td:eq(4)").html()
+					players.push(o)
+				}
+				return players
+			}
+
+			//检查是否选取赛事
+			var checkChoice = function() {
+				if($("#matchs").val() == null || $("#matchs").val() == "") {
+					$("#errormsg").text("请选择赛事！")
+					$("#errormsg").show()
+					return false
+				}
+				if($("#project").val() == null || $("#project").val() == "") {
+					$("#errormsg").text("请选择项目！")
+					$("#errormsg").show()
+					return false
+				}
+				if($("#group").val() == null || $("#group").val() == "") {
+					$("#errormsg").text("请选择组别！")
+					$("#errormsg").show()
+					return false
+				}
+				return true
+			}
+
+			//提交报名表
+			var signTable = function() {
+				if(checkChoice()) {
+					if(checkNumber()) {
+						var players = getPlayers()
+						var team = {}
+						team.competitionId = $("#matchs").val()
+						team.eventId = $("#project").val()
+						team.groupId = $("#group").val()
+						team.persons = players
+
+						var data = JSON.stringify(team)
+						postTeamInfo(data)
+					}
+				}
+			}
+
+			var hideMsg = function() {
+				$("#numberInfo").hide()
+				$("#errormsg").hide()
+			}
+
+			//提交报名数据
+			var postTeamInfo = function(data) {
+					$.ajax({
+					url: "/MyRen/user/publicSubmit",
+					data: data,
+					type: "post",
+					contentType: "application/json",
+					success: function(data) {
+						// 根据返回的数据判断报名成功或失败,同后端沟通返回的数据
+						Showbo.Msg.alert("报名成功！")
+
+					},
+					error: function() {
+						Showbo.Msg.alert("请求出错！")
+					},
+				});
+			}
+		</script>
+	</body>
+
+</html>

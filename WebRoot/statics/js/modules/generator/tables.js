@@ -3,7 +3,7 @@ $(function () {
         url: baseURL + 'tables/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
+			{ label: 'id', name: 'id', index: 'id', width: 30, key: true },
 			{ label: '', name: 'competitionid', index: 'competitionId', width: 80 }, 			
 			{ label: '', name: 'filename', index: 'fileName', width: 80 }			
         ],

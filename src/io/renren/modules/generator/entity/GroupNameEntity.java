@@ -2,6 +2,7 @@ package io.renren.modules.generator.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 
 
@@ -37,7 +38,8 @@ public class GroupNameEntity implements Serializable {
 	private Date birthdayAfter;
 	//
 	private String note;
-
+	private List<CompetitionInfoEntity>competitionInfoList = null;
+	
 	/**
 	 * 设置：
 	 */
@@ -169,5 +171,12 @@ public class GroupNameEntity implements Serializable {
 	 */
 	public String getNote() {
 		return note;
+	}
+	public List<CompetitionInfoEntity> getCompetitionInfoList() {
+		return competitionInfoList;
+	}
+	public void setCompetitionInfoList(
+			List<CompetitionInfoEntity> competitionInfoList) {
+		this.competitionInfoList = competitionInfoList;
 	}
 }

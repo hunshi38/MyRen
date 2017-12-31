@@ -10,10 +10,14 @@
         <result property="competitionId" column="competition_id"/>
         <result property="resultFilePath" column="result_file_path"/>
         <result property="resultName" column="result_name"/>
+        <result property="uuid" column="uuid"/>
     </resultMap>
 
 	<select id="queryObject" resultType="io.renren.modules.generator.entity.ResultManageEntity">
 		select * from result_manage where id = #{value}
+	</select>
+		<select id="queryObjectByCompetitionId" resultType="io.renren.modules.generator.entity.ResultManageEntity">
+		select * from result_manage where competition_id = #{value}
 	</select>
 
 	<select id="queryList" resultType="io.renren.modules.generator.entity.ResultManageEntity">
@@ -41,14 +45,16 @@
 			`additional_word`, 
 			`competition_id`, 
 			`result_file_path`, 
-			`result_name`
+			`result_name`,
+			`uuid`
 		)
 		values
 		(
 			#{additionalWord}, 
 			#{competitionId}, 
 			#{resultFilePath}, 
-			#{resultName}
+			#{resultName},
+			#{uuid}
 		)
 	</insert>
 	 
@@ -59,6 +65,7 @@
 			<if test="competitionId != null">`competition_id` = #{competitionId}, </if>
 			<if test="resultFilePath != null">`result_file_path` = #{resultFilePath}, </if>
 			<if test="resultName != null">`result_name` = #{resultName}</if>
+			<if test="uuid != null">`uuid` = #{uuid}</if>
 		</set>
 		where id = #{id}
 	</update>

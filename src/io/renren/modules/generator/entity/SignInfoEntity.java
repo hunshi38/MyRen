@@ -1,6 +1,7 @@
 package io.renren.modules.generator.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -17,15 +18,21 @@ public class SignInfoEntity implements Serializable {
 	
 	//
 	private Integer id;
-	//赛事信息id
-	private Integer competitionId;
-	//队伍id
-	private Integer teamId;
-	//审查状态
-	private Integer checkStatus;
-	//
-	private String note;
 
+	private CompetitionInfoEntity competitionInfoEntity;
+	private TeamInfoEntity teamInfoEntity;
+    //审查状态
+	private CheckStatusEntity checkStatusEntity;
+	//
+	//赛事信息id
+		private Integer competitionId;
+		//队伍id
+		private Integer teamId;
+		//审查状态
+		private Integer checkStatus;
+	private String note;
+	private Timestamp signTime;
+	
 	/**
 	 * 设置：
 	 */
@@ -38,42 +45,8 @@ public class SignInfoEntity implements Serializable {
 	public Integer getId() {
 		return id;
 	}
-	/**
-	 * 设置：赛事信息id
-	 */
-	public void setCompetitionId(Integer competitionId) {
-		this.competitionId = competitionId;
-	}
-	/**
-	 * 获取：赛事信息id
-	 */
-	public Integer getCompetitionId() {
-		return competitionId;
-	}
-	/**
-	 * 设置：队伍id
-	 */
-	public void setTeamId(Integer teamId) {
-		this.teamId = teamId;
-	}
-	/**
-	 * 获取：队伍id
-	 */
-	public Integer getTeamId() {
-		return teamId;
-	}
-	/**
-	 * 设置：审查状态
-	 */
-	public void setCheckStatus(Integer checkStatus) {
-		this.checkStatus = checkStatus;
-	}
-	/**
-	 * 获取：审查状态
-	 */
-	public Integer getCheckStatus() {
-		return checkStatus;
-	}
+	
+	
 	/**
 	 * 设置：
 	 */
@@ -85,5 +58,47 @@ public class SignInfoEntity implements Serializable {
 	 */
 	public String getNote() {
 		return note;
+	}
+	public CompetitionInfoEntity getCompetitionInfoEntity() {
+		return competitionInfoEntity;
+	}
+	public void setCompetitionInfoEntity(CompetitionInfoEntity competitionInfoEntity) {
+		this.competitionInfoEntity = competitionInfoEntity;
+	}
+	public TeamInfoEntity getTeamInfoEntity() {
+		return teamInfoEntity;
+	}
+	public void setTeamInfoEntity(TeamInfoEntity teamInfoEntity) {
+		this.teamInfoEntity = teamInfoEntity;
+	}
+	public CheckStatusEntity getCheckStatusEntity() {
+		return checkStatusEntity;
+	}
+	public void setCheckStatusEntity(CheckStatusEntity checkStatusEntity) {
+		this.checkStatusEntity = checkStatusEntity;
+	}
+	public Timestamp getSignTime() {
+		return signTime;
+	}
+	public void setSignTime(Timestamp signTime) {
+		this.signTime = signTime;
+	}
+	public Integer getCompetitionId() {
+		return competitionId;
+	}
+	public void setCompetitionId(Integer competitionId) {
+		this.competitionId = competitionId;
+	}
+	public Integer getTeamId() {
+		return teamId;
+	}
+	public void setTeamId(Integer teamId) {
+		this.teamId = teamId;
+	}
+	public Integer getCheckStatus() {
+		return checkStatus;
+	}
+	public void setCheckStatus(Integer checkStatus) {
+		this.checkStatus = checkStatus;
 	}
 }

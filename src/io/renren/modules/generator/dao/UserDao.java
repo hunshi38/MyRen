@@ -10,5 +10,6 @@ import io.renren.modules.sys.dao.BaseDao;
  * @date 2017-11-01 11:45:56
  */
 public interface UserDao extends BaseDao<UserEntity> {
-	
+
+	UserEntity auth(UserEntity user);
 }

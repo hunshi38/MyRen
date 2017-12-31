@@ -51,5 +51,13 @@ public class CompetitionInfoServiceImpl implements CompetitionInfoService {
 	public void deleteBatch(Integer[] ids){
 		competitionInfoDao.deleteBatch(ids);
 	}
+
+	@Override
+	public List<CompetitionInfoEntity> queryListByCompetitionId(Integer id) {
+		// TODO Auto-generated method stub
+		return competitionInfoDao.queryListByCompetitionId(id);
+	}
+
+
 	
 }

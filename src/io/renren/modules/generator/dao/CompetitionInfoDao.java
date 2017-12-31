@@ -1,5 +1,8 @@
 package io.renren.modules.generator.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import io.renren.modules.generator.entity.CompetitionInfoEntity;
 import io.renren.modules.sys.dao.BaseDao;
 /**
@@ -10,5 +13,6 @@ import io.renren.modules.sys.dao.BaseDao;
  * @date 2017-11-01 11:46:17
  */
 public interface CompetitionInfoDao extends BaseDao<CompetitionInfoEntity> {
+	List<CompetitionInfoEntity>queryListByCompetitionId(Integer id);
 	
 }

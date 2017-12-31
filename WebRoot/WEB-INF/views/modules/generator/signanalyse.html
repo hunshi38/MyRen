@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<#include "/header.html">
+<style>
+	select{
+	width:100px; 
+	height:33px;
+	}
+</style>
+</head>
+<body>
+<div id="rrapp" v-cloak>
+	<div v-show="showList">
+		
+		<div class="grid-btn">
+				<select id="s_year"  placeholder=""><option value="-1">比赛时间</option></select>
+				<select id="s_type"  placeholder="" onchange="getMatchData()">
+				<option value="-1">竞赛类型</option>
+				<option value="0">竞技赛事</option>
+				<option value="1">群众赛事</option>
+				</select>
+				<select id="s_competition"  placeholder="" onchange="getGroupData()"><option value="-1">选择比赛名称</option></select>
+				<select id="s_group"   placeholder="">
+				
+				</select>
+			<a class="btn btn-primary" onclick="return query();">查询</a>
+			<a class="btn btn-primary"  onclick="return teamCount();">导出队伍名单</a>
+			<a class="btn btn-primary" onclick="return personCount();">导出人数统计表</a>
+		</div>
+	<hr style="text-align:center;width:1000px;background-color:#3385ff;height:1px" />
+	    <table id="jqGrid"></table>
+	    <div id="jqGridPager"></div>
+    </div>
+
+	</div>
+	</div>
+	
+</div>
+
+
+<script src="${request.contextPath}/statics/js/modules/generator/signanalyse.js?_${.now?long}"></script>
+</body>
+</html>

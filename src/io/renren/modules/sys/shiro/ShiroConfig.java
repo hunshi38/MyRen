@@ -58,16 +58,27 @@ public class ShiroConfig {
         shiroFilter.setLoginUrl("/login.html");
         shiroFilter.setUnauthorizedUrl("/");
 
-        Map<String, String> filterMap = new LinkedHashMap<>();
+        Map<String, String> filterMap = new LinkedHashMap<>(); 
         filterMap.put("/ueditor/**", "anon");
         filterMap.put("/statics/**", "anon");
+        filterMap.put("/before/**", "anon");
+        filterMap.put("/download/*", "anon");
         filterMap.put("/swagger/**", "anon");
+        filterMap.put("/resultmanage/*", "anon");
+        filterMap.put("/user/*", "anon");
+        filterMap.put("/eventname/user/*", "anon");
+        filterMap.put("/groupname/user/*", "anon");
+        filterMap.put("/user/single", "anon");
         filterMap.put("/login.html", "anon");
+        filterMap.put("/index.html", "anon");
+        filterMap.put("/list.html", "anon");
+        filterMap.put("/page.html", "anon");
+        filterMap.put("/single.html", "anon");
         filterMap.put("/sys/login", "anon");
         filterMap.put("/favicon.ico", "anon");
-        filterMap.put("/captcha.jpg", "anon");
-        
+        filterMap.put("/captcha.jpg", "anon"); 
         filterMap.put("/competitionname/listType/*","anon");
+        filterMap.put("/competitionname/download/*","anon");
         filterMap.put("/noticeboard/infoByCid/*","anon");
         filterMap.put("/**", "authc");
         shiroFilter.setFilterChainDefinitionMap(filterMap);

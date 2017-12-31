@@ -3,11 +3,23 @@ $(function () {
         url: baseURL + 'signinfo/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
-			{ label: '赛事信息id', name: 'competitionId', index: 'competition_id', width: 80 }, 			
-			{ label: '队伍id', name: 'teamId', index: 'team_id', width: 80 }, 			
-			{ label: '审查状态', name: 'checkStatus', index: 'check_status', width: 80 }, 			
-			{ label: '', name: 'note', index: 'note', width: 80 }			
+			{ label: '编号', name: 'id', index: 'id', width: 30, key: true },
+			{ label: '赛事信息', name: 'competitionInfoEntity', index: 'competition_id', width: 80,
+				formatter : function(value, options, rowData) {
+
+					return value.id;
+				} }, 			
+			{ label: '队伍', name: 'teamInfoEntity', index: 'team_id', width: 80,
+					formatter : function(value, options, rowData) {
+
+						return value.teamName;
+					} }, 			
+			{ label: '审核状态', name: 'checkStatusEntity', index: 'check_status', width: 80,
+						formatter : function(value, options, rowData) {
+                         return value.statusName;
+						} }, 	
+			{ label: '报名时间', name: 'signTime', index: 'sign_time', width: 80 }	,
+			{ label: '备注', name: 'note', index: 'note', width: 40 }			
         ],
 		viewrecords: true,
         height: 385,

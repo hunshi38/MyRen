@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>公告详情</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="${request.contextPath}/before/css/singlestyle.css">
+		<link rel="stylesheet" href="${request.contextPath}/before/css/bootstrap.min.css">
+		<link rel="stylesheet" href="${request.contextPath}/before/css/btnstyle.css">
+		<link rel="stylesheet" href="${request.contextPath}/before/css/upload.css">
+		<link rel="stylesheet" href="${request.contextPath}/before/css/showBo.css">
+		<script src="${request.contextPath}/before/js/jquery-3.2.1.min.js"></script>
+		<script src="${request.contextPath}/before/js/bootstrap.min.js"></script>
+		<script src="${request.contextPath}/before/js/md5.js"></script>
+		<link href="${request.contextPath}/before/css/buttons.css" rel="stylesheet">
+		<link href="${request.contextPath}/before/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+		<script src="${request.contextPath}/before/js/showBo.js"></script>
+	</head>
+
+	<body style="width: 1280px;margin: auto;">
+		<div style="width: 100%;height: 250px;background-image: url(${request.contextPath}/before/images/image_3.jpg);position: relative; float: left;">
+			<div class="overlay"></div>
+			<div style="z-index:20;width: 100%;height: 70px;position: relative; float: left;">
+				<a class="button button-3d button-primary button-rounded" style="z-index:20;margin-top: 50px; margin-left: 50px;" onclick="chooseSign()">
+     				<i class="fa fa-drivers-license-o"></i>&nbsp;报名
+    			</a>
+			</div>
+			<div style="z-index:20;width: 100%;height: 150px;position: relative; float: left;margin-top: 30px;">
+				<h2 align="center"><font id="title" size="20" color="white"></font></h2>
+				<div style="width: 100%; text-align: center;"><span id="time" style="color: lightyellow;"></span></div>
+				<span style="float:right;margin-right: 50px;color: lightyellow;"><font id="readt" ></font></span>
+			</div>
+		</div>
+
+		<div style="width:80%;height:auto;background-color: white;margin-left: 10%;" id="content">
+			
+		</div>
+		<div>
+			<!--创建模态框(Modal)-->
+			<div class="modal fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<!--对话框标题-->
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					    &times;
+				    </button>
+							<h4 class="modal-title" id="myModalLabel">
+					    登录
+				    </h4>
+						</div>
+						<!--对话框输入-->
+						<div class="modal-body">
+							<form class="form-horizontal" role="form">
+								<div class="form-group">
+									<label for="username" class="col-sm-2 control-label">账号</label>
+									<div class="col-sm-4">
+										<input type="text" class="form-control" id="username" placeholder="请输入账号">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="password" class="col-sm-2 control-label">密码</label>
+									<div class="col-sm-4">
+										<input type="password" class="form-control" id="password" placeholder="请输入密码">
+									</div>
+								</div>
+								<div class="form-group">
+									<label id="errormsg" class="col-sm-4 col-sm-offset-2" style="color: red;" hidden="hidden">提示信息</label>
+								</div>
+							</form>
+						</div>
+						<!--对话框提交-->
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">
+                       			 关闭
+                    		</button>
+							<button id="submit" onclick="submit_form()" type="button" class="btn btn-primary">
+    							提交
+    						</button>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+			</div>
+
+		</div>
+		<div>
+			<!--创建模态框(Modal)-->
+			<div class="modal fade" id="modal-sign" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<!--对话框标题-->
+						<div class="modal-header" style="background-color: gainsboro;">
+							<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        	&times;
+                    		</button>
+							<h4 class="modal-title" id="myModalLabel">报名项目：<span id="cname"></span></h4>
+							<h5 class="modal-title" style="margin-top: 10px;">报名账号：<span id="accname" style="font-size: 15px;">baoming</span>&nbsp;<button class="button button-small button-plain button-border button-circle" onclick="logout()"><i class="fa fa-reply"></i></button></h5>
+						</div>
+						<div class="modal-body">
+							<div class="container-fluid">
+								<form id="sign_form" class="form-horizontal" role="form" action="http://10.82.82.133:8080/MyRen/user/receiveFile" method="POST" enctype="multipart/form-data">
+									<div class="row">
+										<div class="col-md-8">
+											<div class="uploader white" style="margin-left: 50px;">
+												<input type="text" class="filename" readonly="readonly" />
+												<input type="button" name="file" class="buttonb" value="选择报名表" />
+												<input type="file" name="enterFile" size="30" />
+											</div>
+										</div>
+										<div class="col-md-3 control-label" style="text-align: left;">
+											<a class="button button-glow button-border button-rounded button-primary" onclick="file_submit()"><i class="fa fa-upload"></i></a>
+										</div>
+									</div>
+									<div class="row">
+										<input hidden="true" id="competition_id" name="competition_id" value=""></input>
+										<input hidden="true" id="front_user_id" name="front_user_id" value=""></input>
+									</div>
+								</form>
+								<hr />
+								<div class="row">
+									<div class="col-md-5 col-md-offset-1">
+										<a value="" class="button button-3d button-primary button-rounded" id="btn_down" onclick="downTable()"><i class="fa fa-download"></i>&nbsp;下载报名表</a>
+									</div>
+									<div class="col-md-5">
+										<a class="button button-3d button-primary button-rounded" id="btn_ask" onclick="ask_state()"><i class="fa fa-hand-o-up"></i>&nbsp;报名状态查询</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">
+                        	关闭
+                    </button>
+						</div>
+					</div>
+					<!-- /.modal-content -->
+				</div>
+			</div>
+
+		</div>
+		<script>
+			$(document).ready(function() {
+				var cid = ReadCookie("cid");
+				$.ajax({
+					type: "GET",
+					url: "/MyRen/noticeboard/infoByCid/" + cid,
+					timeout: 3000,
+					dataType: 'json',
+					success: function(dat) {
+						$("#time").text(dat['noticeBoard'].createTime)
+						$("#title").text(dat['noticeBoard'].title)
+						$("#readt").text("浏览次数：" + dat['noticeBoard'].readNumber)
+						$("#content").append(dat['noticeBoard'].content)
+					}
+				});
+			});
+
+			var getInfo = function(userid) {
+				var cid = ReadCookie("cid");
+				$.ajax({
+					type: "get",
+					url: "/MyRen/competitionname/listType/0",
+					timeout: 3000,
+					dataType: 'json',
+					success: function(dat) {
+						list = dat.list;
+						var leng = list.length;
+						var obj;
+						for(c in list) {
+							var obj = list[leng - c - 1];
+							if(obj.id == cid) {
+								signTablePath = obj.signTablePath
+								cname = obj.name
+								showSports(cname, signTablePath, cid, userid)
+								break;
+							}
+						}
+					},
+				});
+			}
+
+			var showSports = function(cname, signTablePath, cid, userid) {
+				$("#cname").text(cname)
+				$("#competition_id").val(cid)
+				$("#front_user_id").val(userid)
+				$("#btn_down").attr("value", signTablePath)
+			}
+			
+			var downTable = function(){
+				var path = $("#btn_down").attr("value")
+				if(path == null || path == "")
+				{
+					Showbo.Msg.alert("无报名表信息！")
+				}
+				else{
+					window.location = "/MyRen/competitionname/download/model?filename=" + path
+				}
+			}
+
+			var submit_form = function() {
+				$("#errormsg").hide()
+				var username = $("#username").val()
+				var pass = $("#password").val()
+				var password = hex_md5(pass)
+				$.ajax({
+					url: "/MyRen/user/login?userName=" + username + "&" + "password=" + password,
+					type: "get",
+					dataType: 'json',
+					success: function(data) {
+						var r = data
+						if(r.code == 0) {
+							$('#modal-login').modal('hide')
+							$('#modal-sign').modal('show')
+							getInfo(r.user.id)
+							SetCookie("account", username)
+							SetCookie("userid", r.user.id)
+							$("#accname").text(username)
+						} else {
+							$("#errormsg").text(data.msg)
+							$("#errormsg").show()
+						}
+					},
+					error: function() {
+						alert('请求出错');
+					},
+					complete: function() {
+						// 请求完成后执行的函数
+					}
+
+				});
+				return false;
+			}
+
+			function SetCookie(cookieName, cookieValue, nDays) {
+				/*当前日期*/
+				var today = new Date();
+				/*Cookie过期时间*/
+				var expire = new Date();
+				/*如果未设置nDays参数或者nDays为0，取默认值1*/
+				if(nDays == null || nDays == 0) nDays = 1;
+				/*计算Cookie过期时间*/
+				expire.setTime(today.getTime() + 3600000 * 24 * nDays);
+				/*设置Cookie值*/
+				document.cookie = cookieName + "=" + escape(cookieValue) +
+					";expires=" + expire.toGMTString();
+			}
+
+			function ReadCookie(cookieName) {
+				var theCookie = "" + document.cookie;
+				var ind = theCookie.indexOf(cookieName);
+				if(ind == -1 || cookieName == "") return "";
+				var ind1 = theCookie.indexOf(';', ind);
+				if(ind1 == -1) ind1 = theCookie.length;
+				/*读取Cookie值*/
+				return unescape(theCookie.substring(ind + cookieName.length + 1, ind1));
+			};
+
+			$(function() {
+				$("input[type=file]").change(function() {
+					$(this).parents(".uploader").find(".filename").val($(this).val());
+				});
+				$("input[type=file]").each(function() {
+					if($(this).val() == "") {
+						$(this).parents(".uploader").find(".filename").val("未选择文件...");
+					}
+				});
+			});
+
+			var chooseSign = function() {
+				var type = ReadCookie("type")
+				if(type == 1) {
+					document.location = "commonsign.html";
+				} else if(type == 0) {
+					var acc = ReadCookie("account")
+					if(acc == null || acc == "") {
+						$("#errormsg").hide()
+						$('#modal-login').modal('show')
+					} else {
+						var userid = ReadCookie("userid")
+						getInfo(userid)
+						$('#modal-sign').modal('show')
+						$("#accname").text(acc)
+					}
+				}
+			}
+
+			var logout = function() {
+				SetCookie("account", "")
+				SetCookie("userid", "")
+				$('#modal-sign').modal('hide')
+				$('#modal-login').modal('show')
+			}
+
+			var file_submit = function() {
+				document.getElementById("sign_form").submit()
+			}
+			
+			var ask_state = function(){
+				var cid = $("#competition_id").val()
+				var userid = $("#front_user_id").val()
+				$.ajax({
+					url: "/MyRen/user/checkstatus?competitionId="+ cid +"&userId=" + userid,
+					type: "get",
+					dataType: 'json',
+					success: function(data) {
+						Showbo.Msg.alert(data.msg)
+					},
+					error: function() {
+						alert('请求出错');
+					},
+					complete: function() {
+						// 请求完成后执行的函数
+					}
+				});
+			}
+			
+			
+		</script>
+
+	</body>
+
+</html>

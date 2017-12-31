@@ -3,7 +3,7 @@ $(function () {
         url: baseURL + 'checkstatus/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
+			{ label: 'id', name: 'id', index: 'id', width: 30, key: true },
 			{ label: '审查状态名称', name: 'statusName', index: 'status_name', width: 80 }, 			
 			{ label: '', name: 'note', index: 'note', width: 80 }			
         ],

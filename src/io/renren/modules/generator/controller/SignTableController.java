@@ -93,4 +93,16 @@ public class SignTableController {
 		return R.ok();
 	}
 	
+	 @RequestMapping("/getyears")
+	 	public R getYears(){
+	 		List<Integer>yearList = signTableService.getSignYears();
+	 		String str = yearList.toString();
+	 		str = str.replaceAll("\\[|]","");
+	 		System.out.println(str);
+	 		return R.ok(str);
+	 	}
+	
+	
+	
+	
 }

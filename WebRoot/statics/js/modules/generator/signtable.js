@@ -3,7 +3,7 @@ $(function () {
         url: baseURL + 'signtable/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
+			{ label: 'id', name: 'id', index: 'id', width: 30, key: true },
 			{ label: '', name: 'checkStatus', index: 'check_status', width: 80 }, 			
 			{ label: '', name: 'competitionId', index: 'competition_id', width: 80 }, 			
 			{ label: '', name: 'fileName', index: 'file_name', width: 80 }, 			

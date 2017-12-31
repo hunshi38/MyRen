@@ -3,7 +3,7 @@ $(function () {
         url: baseURL + 'usertype/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
+			{ label: 'id', name: 'id', index: 'id', width: 30, key: true },
 			{ label: '账户类型', name: 'typeName', index: 'type_name', width: 80 }, 			
 			{ label: '', name: 'note', index: 'note', width: 80 }			
         ],

@@ -3,13 +3,21 @@ $(function () {
         url: baseURL + 'competitionname/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
-			{ label: '竞赛名称', name: 'name', index: 'name', width: 80 }, 			
-			{ label: '', name: 'type', index: 'type', width: 80 }, 			
-			{ label: '', name: 'signStartDate', index: 'sign_start_date', width: 80 }, 			
-			{ label: '', name: 'signEndDate', index: 'sign_end_date', width: 80 }, 			
-			{ label: '', name: 'limitAccount', index: 'limit_account', width: 80 }, 			
-			{ label: '', name: 'note', index: 'note', width: 80 }			
+			{ label: '编号', name: 'id', index: 'id', width: 30, key: true },
+			{ label: '赛事名称', name: 'name', index: 'name', width: 160 }, 			
+			{ label: '类型', name: 'type', index: 'type', width: 30 ,
+				formatter:function(value,options,rowData){
+				     if( value===0 ){
+	                    return '竞技赛事';
+	                 }else{
+	                     return '群众赛事';
+	                 }}
+				
+			}, 			
+			{ label: '报名开始时间', name: 'signStartDate', index: 'sign_start_date', width: 60 }, 			
+			{ label: '报名截止时间', name: 'signEndDate', index: 'sign_end_date', width: 60 }, 			
+			{ label: '限制报名账号', name: 'limitAccount', index: 'limit_account', width: 60 }, 			
+			{ label: '备注', name: 'note', index: 'note', width: 40 }	,
         ],
 		viewrecords: true,
         height: 385,
@@ -52,6 +60,8 @@ var vm = new Vue({
 		add: function(){
 			vm.showList = false;
 			vm.title = "新增";
+			 $("#isSave").attr("value","0");
+			  $("#d_upload").removeAttr("style");
 			vm.competitionName = {};
 		},
 		update: function (event) {
@@ -61,11 +71,12 @@ var vm = new Vue({
 			}
 			vm.showList = false;
             vm.title = "修改";
-            
+            $("#isSave").attr("value","1");
+            $("#d_upload").attr("style","display:none");
             vm.getInfo(id)
 		},
-		saveOrUpdate: function (event) {
-			var url = vm.competitionName.id == null ? "competitionname/save" : "competitionname/update";
+		saveOrUpdate: function () {
+			var url = $("#isSave").val() == 0  ? "competitionname/save" : "competitionname/update";
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
@@ -81,6 +92,59 @@ var vm = new Vue({
 					}
 				}
 			});
+		},
+		download:function(event){
+			var id = getSelectedRow();
+			if(id == null){
+				return ;
+			}
+			$.ajax({
+				async:false,
+				type: "get",
+			    url: baseURL + "competitionname/info/"+id,
+			    contentType: "application/json",
+			    success: function(r){
+			    	vm.competitionName = r.competitionName;
+		               var filename=vm.competitionName.signTablePath;	
+		               var url = baseURL+'competitionname/download/model';
+		               var form = $("<form></form>").attr("action", url).attr("method", "post").attr("accept-charset","utf-8").attr("onsubmit","document.charset='utf-8'");
+		               form.append($("<input></input>").attr("type", "hidden").attr("name", "filename").attr("value", filename));
+		               form.append($("<input></input>").attr("type", "hidden").attr("name", "source").attr("value", "ajax"));
+		               form.appendTo('body').submit().remove();
+			    }
+			});
+	
+			
+		},
+		upload:function(event){
+			var name = $.trim(vm.competitionName['name']);
+			//alert(name);
+			if (!validatename(name)) {
+				return;
+			}
+			//检验赛事类型
+			var type = $.trim(vm.competitionName['type']);
+			if (!validatetype(type)) {
+				return;
+			}	
+			
+			//检验赛事开始时间
+			var signStartDate = $.trim(vm.competitionName['signStartDate']);
+			if (!validatesignStartDate(signStartDate)) {
+				return;
+			}	
+			//检验赛事结束时间
+			var signEndDate = $.trim(vm.competitionName['signEndDate']);
+			if (!validatetype(signEndDate)) {
+				return;
+			}	
+			var isSave = $("#isSave").val();//0 is save,1 is update
+			if(isSave == 1){
+				vm.saveOrUpdate();
+			}else{
+			$("#form1").submit();
+			   vm.reload();
+			}
 		},
 		del: function (event) {
 			var ids = getSelectedRows();
@@ -120,3 +184,39 @@ var vm = new Vue({
 		}
 	}
 });
+
+//校验赛事名称
+function validatename(obj) {
+	if (obj == "" || obj == null) {
+		alert('赛事名称不能为空!');
+		return false;
+	}
+	return true;
+}
+//校验赛事类型
+function validatetype(obj) {
+	if (obj == "" || obj == null) {
+		alert('赛事类型不能为空!');
+		return false;
+	}
+	return true;
+}
+
+
+
+function validatesignStartDate(birth) {
+	if (birth == null || birth == ""
+			|| (!/^[0-9]{4}\/[0-9]{2}\/[0-9]{2}/.test(birth))) {
+		alert("日期不能为空！");
+		return false
+	}
+	return true;
+}
+function validatesignEndDate(birth) {
+	if (birth == null || birth == ""
+			|| (!/^[0-9]{4}\/[0-9]{2}\/[0-9]{2}/.test(birth))) {
+		alert("日期不能为空！");
+		return false
+	}
+	return true;
+}

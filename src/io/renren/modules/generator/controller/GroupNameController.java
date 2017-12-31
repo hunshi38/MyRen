@@ -1,16 +1,20 @@
 package io.renren.modules.generator.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.renren.modules.generator.entity.CompetitionNameEntity;
+import io.renren.modules.generator.entity.EventNameEntity;
 import io.renren.modules.generator.entity.GroupNameEntity;
 import io.renren.modules.generator.service.GroupNameService;
 import io.renren.common.utils.PageUtils;
@@ -25,7 +29,8 @@ import io.renren.common.utils.R;
  * @email sunlightcs@gmail.com
  * @date 2017-11-01 11:46:16
  */
-@RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RestController 
 @RequestMapping("groupname")
 public class GroupNameController {
 	@Autowired
@@ -48,7 +53,28 @@ public class GroupNameController {
 		return R.ok().put("page", pageUtil);
 	}
 	
+	@RequestMapping(value="/listall")
+	public R list(){
+		Map<String, Object> map = new HashMap<String,Object>();
+		List<GroupNameEntity> groupNameList = groupNameService.queryList(map);
+		
+		return R.ok().put("list",groupNameList );
+	}
 	
+  @RequestMapping("/user/getGroupListById")
+	
+	public R getEventListByCompetitonId(Integer competitionId,Integer eventId) {
+	List<GroupNameEntity>groupList =  groupNameService.queryListByCompetitionIdAndEventId(competitionId, eventId);
+	
+		return R.ok().put("groupList", groupList);
+	}
+  @RequestMapping("/user/getGroupListById2")
+	
+	public R getEventListByCompetitonId2(Integer competitionId) {
+	List<GroupNameEntity>groupList =  groupNameService.queryListByCompetitionId(competitionId);
+	
+		return R.ok().put("groupList", groupList);
+	}
 	/**
 	 * 信息
 	 */

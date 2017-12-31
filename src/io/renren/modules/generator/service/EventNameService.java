@@ -27,4 +27,8 @@ public interface EventNameService {
 	void delete(Integer id);
 	
 	void deleteBatch(Integer[] ids);
+	
+	List<EventNameEntity>queryListByCompetitionId(Integer competitionId);
+
+	
 }

@@ -51,5 +51,11 @@ public class UserServiceImpl implements UserService {
 	public void deleteBatch(Integer[] ids){
 		userDao.deleteBatch(ids);
 	}
+
+	@Override
+	public UserEntity auth(UserEntity user) {
+		
+		return userDao.auth(user);
+	}
 	
 }

@@ -16,7 +16,7 @@
 	<select id="queryObject" resultType="io.renren.modules.generator.entity.RegisterAthleteEntity">
 		select * from register_athlete where id_card = #{value}
 	</select>
-
+	
 	<select id="queryList" resultType="io.renren.modules.generator.entity.RegisterAthleteEntity">
 		select * from register_athlete
         <choose>

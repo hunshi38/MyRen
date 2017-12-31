@@ -1,0 +1,94 @@
+body {
+	background-color: #F6F8F8
+}
+
+
+.content {
+	/*min-height: 1080px;*/
+	width: 1280px;
+	position:relative;
+	margin:0 auto;
+	background-color: #F6F8F8
+}
+
+
+.selectpad{
+	width: 100%;
+	position: relative;
+	float: left;
+	background-color: #889CBF;
+	min-height: 60px;
+	z-index: 100;
+}
+
+.select1{
+	position: relative;
+	float: left;
+	margin-left: 15%;
+	margin-top: 20px;
+	height: 100%;
+	width: 250px; 
+}
+
+.select2{
+	position: relative;
+	float: left;
+	margin-left: 50px;
+	margin-top: 20px;
+	height: 100%;
+	width: 250px; 
+}
+.select3{
+	position: relative;
+	float: left;
+	margin-left: 50px;
+	margin-top: 20px;
+	height: 100%;
+	width: 250px; 
+}
+
+.ThreeDeeFont {
+font-family: 'Microsoft YaHei';
+line-height: 1em;
+color: #fff9d6;
+font-weight:bold;
+font-size: 80px;
+text-shadow:0px 0px 0 rgb(231,231,231),1px 1px 0 rgb(216,216,216),2px 2px 0 rgb(202,202,202),3px 3px 0 rgb(187,187,187),4px 4px 0 rgb(173,173,173),5px 5px 0 rgb(158,158,158), 6px 6px 0 rgb(144,144,144),7px 7px 6px rgba(0,0,0,0.6),7px 7px 1px rgba(0,0,0,0.5),0px 0px 6px rgba(0,0,0,.2);}
+
+.signtable{
+	width: 100%;
+	position: relative;
+	float: left;
+	height: auto;
+}
+
+
+
+/* Border styles */
+#table-3 thead, #table-3 tr {
+border-top-width: 1px;
+border-top-style: solid;
+border-top-color: rgb(168, 191, 222);
+}
+#table-3 {
+border-bottom-width: 1px;
+border-bottom-style: solid;
+border-bottom-color: rgb(168, 191, 222);
+/*margin-left: 25%;*/
+}
+
+/* Padding and font style */
+#table-3 td, #table-3 th {
+padding: 5px 10px;
+font-size: 18px;
+font-family: Verdana;
+color: rgb(115, 125, 174);
+}
+
+/* Alternating background colors */
+#table-3 tr:nth-child(even) {
+background: rgb(211, 223, 237)
+}
+#table-3 tr:nth-child(odd) {
+background: #FFF
+}

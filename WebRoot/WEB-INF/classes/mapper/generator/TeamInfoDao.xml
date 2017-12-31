@@ -21,6 +21,53 @@
 	<select id="queryObject" resultType="io.renren.modules.generator.entity.TeamInfoEntity">
 		select * from team_info where id = #{value}
 	</select>
+	<select id="fuzzyQuery" resultType="io.renren.modules.generator.entity.TeamInfoEntity">
+	select * from team_info where team_name like concat('%',#{name},'%')  and company like concat('%',#{company},'%') and id in
+	<foreach item="teamId" index="index" collection="teamIdList"
+	open="(" separator="," close=")">
+	#{teamId}
+	</foreach>
+	</select>
+	
+	
+	<select id="getCompanyList" resultType="String">
+	select distinct company from team_info where id in
+	<foreach item="teamId" index="index" collection="teamIdList"
+	open="(" separator="," close=")">
+	#{teamId}
+	</foreach>
+	</select>
+
+	<select id="getTeamList" resultType="io.renren.modules.generator.entity.TeamInfoEntity">
+	select * from team_info where id in
+	<foreach item="teamId" index="index" collection="teamIdList"
+	open="(" separator="," close=")">
+	#{teamId}
+	</foreach>
+	</select>
+
+	<select id="queryByCondition" resultType="io.renren.modules.generator.entity.TeamInfoEntity">
+		select * from team_info where id in (
+select team_id from sign_info where competition_id in(
+select id from competition_info where competition_id=#{competitionId}
+      <if test="groupId !=null and group != -1">
+			 and group_id=#{groupId}
+		</if>
+
+))
+		 <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
 
 	<select id="queryList" resultType="io.renren.modules.generator.entity.TeamInfoEntity">
 		select * from team_info

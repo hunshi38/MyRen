@@ -27,4 +27,6 @@ public interface UserService {
 	void delete(Integer id);
 	
 	void deleteBatch(Integer[] ids);
+
+	UserEntity auth(UserEntity user);
 }

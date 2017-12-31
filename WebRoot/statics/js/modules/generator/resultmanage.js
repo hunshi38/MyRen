@@ -3,12 +3,12 @@ $(function () {
         url: baseURL + 'resultmanage/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
-			{ label: '', name: 'additionalWord', index: 'additional_word', width: 80 }, 			
-			{ label: '', name: 'competitionId', index: 'competition_id', width: 80 }, 			
-			{ label: '', name: 'resultFilePath', index: 'result_file_path', width: 80 }, 			
-			{ label: '', name: 'resultName', index: 'result_name', width: 80 }			
-        ],
+			{ label: '编号', name: 'id', index: 'id', width: 30, key: true },
+			{ label: '比赛名称', name: 'resultName', index: 'result_name', width: 80 },
+			{ label: '项目名称', name: 'competitionId', index: 'competition_id', width: 80 }, 			
+			{ label: '组别', name: 'additionalWord', index: 'additional_word', width: 80 }, 	
+			{ label: '附件', name: 'resultFilePath', index: 'result_file_path', width: 80 }, 			
+			 ],
 		viewrecords: true,
         height: 385,
         rowNum: 10,
@@ -36,6 +36,63 @@ $(function () {
     });
 });
 
+function getCompetitionNameData(){
+	$.ajax({
+		type : "POST",
+		url : baseURL + "competitionname/listall",
+		contentType : "application/json",
+		success : function(r) {
+			list = r.list;
+			var select = $("#result_id");
+			for (c in list) {
+				var id = list[c].id;
+				var name = list[c].name;
+				select.append("<option  value=" + id + ">" + name
+						+ "</option>");			
+        }
+		}
+	});
+}
+
+
+
+function getEventNameData(){
+	$.ajax({
+		type : "POST",
+		url : baseURL + "eventname/listall",
+		contentType : "application/json",
+		success : function(r) {
+			list = r.list;
+			var select = $("#competition_id");
+			for (c in list) {
+				var id = list[c].id;
+				var name = list[c].name;
+				select.append("<option  value=" + id + ">" + name
+						+ "</option>");				
+        }
+		}
+	});
+	
+}
+function getGroupNameData(){
+	$.ajax({
+		type : "POST",
+		url : baseURL + "groupname/listall",
+		contentType : "application/json",
+		success : function(r) {
+			list = r.list;
+			var select = $("#additional_word");
+			for (c in list) {
+				var id = list[c].id;
+				var name = list[c].groupName;
+				select.append("<option  value=" + name + ">" + name
+						+ "</option>");				
+        }
+		}
+	});
+}
+
+
 var vm = new Vue({
 	el:'#rrapp',
 	data:{
@@ -49,8 +106,12 @@ var vm = new Vue({
 		},
 		add: function(){
 			vm.showList = false;
-			vm.title = "新增";
+			vm.title = "上传成绩单";
 			vm.resultManage = {};
+			getCompetitionNameData();
+			getEventNameData();
+			getGroupNameData();
+			
 		},
 		update: function (event) {
 			var id = getSelectedRow();
@@ -79,6 +140,12 @@ var vm = new Vue({
 					}
 				}
 			});
+		},
+		upload:function(event){
+			
+			$("#form1").submit();
+			vm.reload();
+			
 		},
 		del: function (event) {
 			var ids = getSelectedRows();
